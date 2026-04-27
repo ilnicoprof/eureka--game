@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eureka! - Studente</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { padding: 20px; padding-bottom: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
+        .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; }
+        @media (min-width: 600px) {
+            .login-screen, .game-screen { max-width: 550px; }
+        }
+        @media (min-width: 900px) {
+            .login-screen, .game-screen { max-width: 700px; }
+        }
+        .hidden { display: none !important; }
+        .status-msg { margin: 20px 0; font-size: 1.5rem; text-align: center; color: #fbbf24; font-weight: bold; }
+        .keyboard { background: none; border: none; padding: 0; box-shadow: none; backdrop-filter: none; width: 100%; }
+        .keyboard.disabled { opacity: 0.5; pointer-events: none; }
+        .key { width: 45px; height: 55px; font-size: 1.2rem; }
+
+        /* Pulsanti azione studente */
+        .student-actions {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .student-actions button {
+            flex: 1;
+        }
+
+        /* === MODAL TABELLONE === */
+        .board-modal {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            padding-bottom: 130px; /* spazio per il pulsante eureka fisso */
+            overflow-y: auto;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .board-modal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .board-modal-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .board-modal-header h2 {
+            color: #60a5fa;
+            font-size: 1.4rem;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+        .board-modal-close {
+            background: rgba(239, 68, 68, 0.3);
+            border: 2px solid #ef4444;
+            color: #f87171;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .board-modal-close:hover {
+            background: rgba(239, 68, 68, 0.6);
+        }
+
+        /* Categoria nel modal */
+        .student-category {
+            background: #60a5fa;
+            color: #0f172a;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            border: 2px solid #ffffff;
+            flex-shrink: 0;
+        }
+
+        /* Tabellone studente */
+        .student-board {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: flex-start;
+            gap: 10px 20px;
+            padding: 15px;
+            background: #1e3a8a;
+            border-radius: 10px;
+            border: 4px solid #2563eb;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 95vw;
+            min-height: 120px;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        .student-word {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .student-tile {
+            width: clamp(28px, 8vw, 42px);
+            height: clamp(36px, 10vw, 52px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            font-weight: 800;
+            font-family: monospace;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .student-tile.revealed {
+            background: #ffffff;
+            color: #1e3a8a;
+            border: 2px solid #000;
+        }
+
+        .student-tile.hidden-letter {
+            background: #0f172a;
+            border: 2px solid #3b82f6;
+            color: transparent;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .student-tile.hidden-letter.selected {
+            border-color: #fbbf24;
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
+            transform: scale(1.1);
+        }
+
+        .student-tile.hidden-letter.has-guess {
+            background: rgba(251, 191, 36, 0.15);
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
+        .student-tile.punctuation-tile {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+        }
+
+        /* Info testo */
+        .board-info {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            font-style: italic;
+            flex-shrink: 0;
+        }
+
+        /* Tastiera locale nel modal */
+        .local-keyboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            max-width: 95vw;
+            flex-shrink: 0;
+        }
+        .local-keyboard .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+        .local-key {
+            width: 32px;
+            height: 40px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            color: #f8fafc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+        }
+        .local-key:hover, .local-key:active {
+            background: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+        }
+        .local-key.erase-key {
+            width: 60px;
+            border-color: #f87171;
+            color: #f87171;
+            font-size: 1.1rem;
+        }
+        .local-key.erase-key:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Pulsante reset ipotesi */
+        .reset-guesses-btn {
+            margin-top: 8px;
+            padding: 8px 20px;
+            background: transparent;
+            border: 2px solid #94a3b8;
+            color: #94a3b8;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Outfit', sans-serif;
+            flex-shrink: 0;
+        }
+        .reset-guesses-btn:hover {
+            border-color: #f87171;
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Pulsante tabellone - circolare fisso */
+        .btn-board {
+            width: 90px;
+            height: 90px;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
+            border: 3px solid #60a5fa !important;
+            color: #ffffff !important;
+            overflow: hidden;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(calc(-50% - 60px));
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.7rem !important;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            padding: 8px !important;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4), 0 4px 15px rgba(0,0,0,0.3);
+            animation: board-glow 2s ease-in-out infinite;
+            transition: all 0.2s ease;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+        }
+        .btn-board:hover {
+            transform: translateX(calc(-50% - 60px)) scale(1.08);
+            box-shadow: 0 0 35px rgba(37, 99, 235, 0.6), 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .btn-board:active {
+            transform: translateX(calc(-50% - 60px)) scale(0.93);
+        }
+        .btn-board::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+        @keyframes board-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(37, 99, 235, 0.7); }
+        }
+
+        /* === PULSANTE EUREKA! (cerchio fisso in basso al centro) === */
+        .eureka-btn {
+            width: 90px;
+            height: 90px;
+            padding: 0;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b) !important;
+            background-size: 200% 200% !important;
+            border: 3px solid #fbbf24 !important;
+            color: #000 !important;
+            border-radius: 50%;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.4), 0 4px 15px rgba(0,0,0,0.3);
+            animation: eureka-glow 2s ease-in-out infinite;
+            transition: all 0.2s ease;
+            font-family: 'Outfit', sans-serif;
+            /* Posizionamento fisso in basso al centro */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(calc(-50% + 60px));
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.2;
+            text-align: center;
+        }
+        .eureka-btn:hover {
+            transform: translateX(calc(-50% + 60px)) scale(1.08);
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.6), 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .eureka-btn:active {
+            transform: translateX(calc(-50% + 60px)) scale(0.93);
+        }
+        .eureka-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            animation: none;
+            transform: translateX(calc(-50% + 60px)) !important;
+            box-shadow: none !important;
+        }
+        @keyframes eureka-glow {
+            0%, 100% { background-position: 0% 50%; box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+            50% { background-position: 100% 50%; box-shadow: 0 0 40px rgba(245, 158, 11, 0.7); }
+        }
+
+        /* Nasconde il secondo eureka nel modal (usiamo solo quello fisso globale) */
+        .eureka-btn-small {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-screen" class="login-screen glassmorphism">
+        <h2>Unisciti al gioco!</h2>
+        <input type="text" id="player-name" class="text-input" placeholder="Il tuo nome" style="margin-bottom: 20px;">
+        <button id="join-btn" class="primary-btn" style="width: 100%;">Entra</button>
+    </div>
+
+    <div id="game-screen" class="game-screen hidden">
+        <h1>Eureka!</h1>
+        <div id="status-msg" class="status-msg">In attesa del tuo turno...</div>
+        
+        <div id="keyboard-selection" class="hidden" style="margin-bottom: 15px; display: flex; gap: 10px; width: 100%;">
+            <button id="btn-show-consonants" class="primary-btn" style="flex: 1; padding: 10px; font-size: 1.1rem;">🔤 Consonanti</button>
+            <button id="btn-show-vowels" class="primary-btn" style="flex: 1; padding: 10px; font-size: 1.1rem;">🅰️ Vocali</button>
+        </div>
+
+        <!-- Pulsante EUREKA! - circolare fisso in basso a destra del centro -->
+        <button id="eureka-btn-main" class="eureka-btn">💡<br>EUREKA!</button>
+
+        <!-- Pulsante Ragiona Qui - circolare fisso in basso a sinistra del centro -->
+        <button id="btn-show-board" class="btn-board">🧠<br>Ragiona<br>qui</button>
+
+        <div id="student-keyboard" class="keyboard disabled">
+            <!-- Tastiera generata via JS -->
+        </div>
+    </div>
+
+    <!-- MODAL TABELLONE STUDENTE -->
+    <div id="board-modal" class="board-modal hidden">
+        <div class="board-modal-header">
+            <h2>📋 Il Tuo Tabellone</h2>
+            <button id="board-modal-close" class="board-modal-close">✕</button>
+        </div>
+
+        <div id="student-category" class="student-category hidden"></div>
+
+        <div id="student-board" class="student-board">
+            <div style="color: #94a3b8; text-align: center; padding: 20px;">
+                In attesa che l'insegnante avvii il gioco...
+            </div>
+        </div>
+
+        <div class="board-info">Tocca una casella nascosta e poi una lettera per inserire la tua ipotesi</div>
+
+        <div id="local-keyboard" class="local-keyboard">
+            <!-- Generata via JS -->
+        </div>
+
+        <button id="reset-guesses-btn" class="reset-guesses-btn">🗑️ Cancella le mie ipotesi</button>
+
+        <!-- Pulsante EUREKA! nel modal tabellone -->
+        <button id="eureka-btn-board" class="eureka-btn eureka-btn-small">💡 EUREKA!</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="student.js"></script>
+</body>
+</html>
