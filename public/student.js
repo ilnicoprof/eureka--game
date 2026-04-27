@@ -9,11 +9,13 @@ if (!roomCode || roomCode === 'join' || roomCode === 'student.html') {
     document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Outfit,sans-serif;color:#f87171;font-size:1.3rem;text-align:center;padding:20px;">⚠️ Link non valido.<br>Chiedi al tuo insegnante il link corretto per entrare nel gioco.</div>';
 }
 
-// Join room on connect
-socket.emit('join_room', roomCode, (response) => {
-    if (response && response.error) {
-        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Outfit,sans-serif;color:#f87171;font-size:1.3rem;text-align:center;padding:20px;">⚠️ Stanza non trovata.<br>Il gioco potrebbe essere terminato. Chiedi un nuovo link al tuo insegnante.</div>';
-    }
+// Join room AFTER socket is connected
+socket.on('connect', () => {
+    socket.emit('join_room', roomCode, (response) => {
+        if (response && response.error) {
+            document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Outfit,sans-serif;color:#f87171;font-size:1.3rem;text-align:center;padding:20px;">⚠️ Stanza non trovata.<br>Il gioco potrebbe essere terminato. Chiedi un nuovo link al tuo insegnante.</div>';
+        }
+    });
 });
 
 const loginScreen = document.getElementById('login-screen');
