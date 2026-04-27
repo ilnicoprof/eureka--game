@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eureka!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar per i giocatori -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>🧑‍🔬 Giocatori</h2>
+                <button id="reset-scores-btn" class="secondary-btn" style="width: 100%; margin-top: 10px; padding: 8px; font-size: 0.9rem; border-color: #fbbf24; color: #fbbf24;">🔄 Azzera Punteggi</button>
+            </div>
+            <div id="players-list" class="players-list">
+                <!-- I giocatori appariranno qui -->
+                <div class="empty-players">Nessun giocatore.<br>Aggiungili dalle impostazioni.</div>
+            </div>
+        </aside>
+
+        <!-- Area principale del gioco -->
+        <main class="game-area">
+            <header>
+                <h1>Eureka!</h1>
+                <button id="settings-btn" class="icon-btn" title="Impostazioni Insegnante">⚙️</button>
+            </header>
+
+            <!-- Banner link studenti -->
+            <div id="student-link-banner" style="width: 100%; max-width: 1100px; margin-bottom: 15px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.3rem;">📱</span>
+                    <span style="color: #10b981; font-weight: 700; font-size: 0.95rem;">Link Studenti:</span>
+                    <span id="student-link-display" style="color: #6ee7b7; font-size: 0.9rem; word-break: break-all; cursor: pointer; text-decoration: underline dotted;"></span>
+                </div>
+            </div>
+
+            <div id="category-display" class="category-display hidden"></div>
+
+            <div id="board" class="board">
+                <!-- Word blocks will be generated here -->
+                <div class="empty-state">Clicca sull'ingranaggio in alto a destra per iniziare!</div>
+            </div>
+            
+            <div class="teacher-controls" style="margin-bottom: 20px; display: flex; gap: 15px; justify-content: center; align-items: center; background: rgba(0,0,0,0.3); padding: 15px 25px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.3);">
+                <span style="color: #bfdbfe; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Tastiere Alunni:</span>
+                <button id="toggle-consonants-btn" class="secondary-btn" style="margin: 0; border-color: #ef4444; color: #ef4444; min-width: 160px;">🔤 Consonanti OFF</button>
+                <button id="toggle-vowels-btn" class="secondary-btn" style="margin: 0; border-color: #ef4444; color: #ef4444; min-width: 160px;">🅰️ Vocali OFF</button>
+            </div>
+
+            <button id="toggle-keyboard-btn" class="secondary-btn" style="margin-bottom: 20px;">⌨️ Mostra Tastiera LIM</button>
+
+            <div id="keyboard" class="keyboard hidden">
+                <!-- Keyboard buttons will be generated here -->
+            </div>
+
+            <div class="solution-section">
+                <input type="text" id="solution-input" class="text-input" placeholder="Vuoi dare la soluzione completa? Scrivila qui...">
+                <button id="solve-btn" class="primary-btn">Verifica</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden Teacher Menu Modal -->
+    <div id="teacher-modal" class="modal hidden">
+        <div class="modal-content glassmorphism">
+            <h2>Impostazioni Insegnante</h2>
+            
+            <div class="input-group">
+                <label>Categoria o Indizio:</label>
+                <input type="text" id="category-input" class="text-input" placeholder="Es: IL CORPO UMANO">
+            </div>
+            
+            <div class="input-group">
+                <label>Frase da indovinare:</label>
+                <textarea id="phrase-input" rows="3" placeholder="Es: IL TEOREMA DI PITAGORA"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Nomi dei giocatori (separati da virgola):</label>
+                <textarea id="players-input" rows="2" placeholder="Es: Marco, Giulia, Matteo"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button id="save-phrase-btn" class="primary-btn">Salva e Inizia</button>
+                <button id="close-modal-btn" class="secondary-btn">Annulla</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schermata di Congratulazioni -->
+    <div id="congratulations-screen" class="modal hidden">
+        <div class="modal-content glassmorphism" style="text-align: center; border-color: #fbbf24; box-shadow: 0 0 50px rgba(251, 191, 36, 0.4);">
+            <h1 style="font-size: 6rem; margin-bottom: 0; filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));">🏆</h1>
+            <h2 style="font-size: 3rem; color: #fbbf24; margin-top: 10px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);">COMPLIMENTI!</h2>
+            <p id="winner-text" style="font-size: 1.5rem; margin-bottom: 30px; color: #ffffff;">Soluzione esatta!</p>
+            <button id="close-win-btn" class="primary-btn" style="background: #fbbf24; color: #000;">Chiudi e Continua</button>
+        </div>
+    </div>
+
+    <!-- Banner EUREKA! prenotazione -->
+    <div id="eureka-banner" class="modal hidden">
+        <div class="modal-content glassmorphism" style="text-align: center; border-color: #f59e0b; box-shadow: 0 0 80px rgba(245, 158, 11, 0.6), 0 0 200px rgba(245, 158, 11, 0.2); max-width: 700px;">
+            <div style="font-size: 8rem; margin-bottom: 0; animation: eureka-pulse 1s infinite; filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.8));">💡</div>
+            <h2 style="font-size: 4rem; color: #fbbf24; margin: 10px 0; text-shadow: 0 0 20px rgba(251, 191, 36, 0.8); letter-spacing: 6px; text-transform: uppercase;">EUREKA!</h2>
+            <p id="eureka-player-name" style="font-size: 2rem; margin-bottom: 30px; color: #ffffff;"></p>
+            <button id="eureka-dismiss-btn" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-size: 1.3rem; padding: 15px 50px;">✕ Chiudi</button>
+        </div>
+    </div>
+    <style>
+        @keyframes eureka-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+    </style>
+
+    <img id="teacher-logo" src="logo.png" alt="Logo ilnicoprof" class="teacher-logo">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

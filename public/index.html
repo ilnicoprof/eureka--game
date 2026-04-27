@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eureka! — Crea il tuo gioco</title>
+    <meta name="description" content="Eureka! — Il gioco educativo a quiz per la classe. Crea una partita e condividi il link con i tuoi studenti.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(59, 130, 246, 0.3);
+            --text-primary: #f8fafc;
+            --text-secondary: #bfdbfe;
+            --accent-color: #60a5fa;
+            --accent-hover: #3b82f6;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0f172a url('bg.png') center/cover no-repeat fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .setup-container {
+            width: 100%;
+            max-width: 580px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .setup-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 40px rgba(96, 165, 250, 0.4);
+            margin-bottom: 5px;
+        }
+
+        .logo-section .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .logo-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.6));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+            margin: 25px 0;
+        }
+
+        .input-group {
+            margin-bottom: 22px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .input-group label .hint {
+            font-weight: 400;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.25);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(191, 219, 254, 0.4);
+        }
+
+        .create-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            color: #0f172a;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
+        }
+
+        .create-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .create-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* ===== SUCCESS SCREEN ===== */
+        .success-screen {
+            display: none;
+        }
+
+        .success-screen.visible {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .success-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.1);
+            backdrop-filter: blur(20px);
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            animation: pop 0.4s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-card h2 {
+            color: #10b981;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .link-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .link-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .link-url {
+            font-size: 1.1rem;
+            color: #10b981;
+            word-break: break-all;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid #10b981;
+            color: #10b981;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(16, 185, 129, 0.35);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+            color: #0f172a;
+        }
+
+        .go-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+            color: #0f172a;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 15px;
+        }
+
+        .go-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
+        }
+
+        .error-msg {
+            color: #f87171;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .error-msg.visible {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Teacher logo */
+        .teacher-logo {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            opacity: 0.4;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .setup-card, .success-card {
+                padding: 25px 20px;
+            }
+            .logo-section h1 {
+                font-size: 2.5rem;
+            }
+            .teacher-logo {
+                width: 70px;
+                height: 70px;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="setup-container">
+        <!-- SETUP FORM -->
+        <div id="setup-form" class="setup-card">
+            <div class="logo-section">
+                <span class="logo-icon">💡</span>
+                <h1>Eureka!</h1>
+                <p class="subtitle">Crea una partita per la tua classe</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="input-group">
+                <label>Categoria o Indizio <span class="hint">(opzionale)</span></label>
+                <input type="text" id="category-input" placeholder="Es: IL CORPO UMANO">
+            </div>
+
+            <div class="input-group">
+                <label>Frase da indovinare</label>
+                <textarea id="phrase-input" rows="3" placeholder="Es: IL TEOREMA DI PITAGORA"></textarea>
+            </div>
+
+            <button id="create-btn" class="create-btn">🚀 Crea Gioco</button>
+            <div id="error-msg" class="error-msg"></div>
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div id="success-screen" class="success-screen">
+            <div class="success-card">
+                <div class="success-icon">✅</div>
+                <h2>Gioco Creato!</h2>
+
+                <div class="link-box">
+                    <div class="link-label">📱 Link per gli studenti</div>
+                    <div id="student-link" class="link-url"></div>
+                </div>
+
+                <button id="copy-btn" class="copy-btn">📋 Copia Link</button>
+
+                <div class="link-box" style="border-color: rgba(96, 165, 250, 0.3);">
+                    <div class="link-label" style="color: #60a5fa;">🖥️ Codice Stanza</div>
+                    <div id="room-code-display" class="link-url" style="color: #60a5fa; font-size: 2rem; letter-spacing: 6px;"></div>
+                </div>
+
+                <button id="go-btn" class="go-btn">▶️ Vai al Gioco</button>
+            </div>
+        </div>
+    </div>
+
+    <img src="logo.png" alt="Logo" class="teacher-logo">
+
+    <script>
+        const createBtn = document.getElementById('create-btn');
+        const categoryInput = document.getElementById('category-input');
+        const phraseInput = document.getElementById('phrase-input');
+        const errorMsg = document.getElementById('error-msg');
+        const setupForm = document.getElementById('setup-form');
+        const successScreen = document.getElementById('success-screen');
+        const studentLinkEl = document.getElementById('student-link');
+        const roomCodeDisplay = document.getElementById('room-code-display');
+        const copyBtn = document.getElementById('copy-btn');
+        const goBtn = document.getElementById('go-btn');
+
+        let createdRoomCode = '';
+
+        createBtn.addEventListener('click', async () => {
+            const phrase = phraseInput.value.trim();
+            const category = categoryInput.value.trim();
+
+            if (!phrase) {
+                showError('Inserisci una frase da indovinare!');
+                return;
+            }
+
+            createBtn.disabled = true;
+            createBtn.textContent = '⏳ Creazione in corso...';
+
+            try {
+                const res = await fetch('/api/create-room', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ category, phrase })
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    showError(data.error || 'Errore nella creazione della stanza');
+                    createBtn.disabled = false;
+                    createBtn.textContent = '🚀 Crea Gioco';
+                    return;
+                }
+
+                createdRoomCode = data.roomCode;
+
+                // Show success screen
+                const baseUrl = window.location.origin;
+                const studentUrl = `${baseUrl}/join/${createdRoomCode}`;
+                studentLinkEl.textContent = studentUrl;
+                roomCodeDisplay.textContent = createdRoomCode;
+
+                setupForm.style.display = 'none';
+                successScreen.classList.add('visible');
+
+            } catch (err) {
+                showError('Errore di connessione al server');
+                createBtn.disabled = false;
+                createBtn.textContent = '🚀 Crea Gioco';
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const baseUrl = window.location.origin;
+            const studentUrl = `${baseUrl}/join/${createdRoomCode}`;
+            navigator.clipboard.writeText(studentUrl).then(() => {
+                copyBtn.textContent = '✅ Copiato!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = '📋 Copia Link';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                // Fallback: select text
+                const range = document.createRange();
+                range.selectNodeContents(studentLinkEl);
+                const selection = window.getSelection();
+                selection.removeAllRanges();
+                selection.addRange(range);
+            });
+        });
+
+        goBtn.addEventListener('click', () => {
+            window.location.href = `/teacher?room=${createdRoomCode}`;
+        });
+
+        // Enter key support
+        phraseInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                createBtn.click();
+            }
+        });
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.add('visible');
+            setTimeout(() => errorMsg.classList.remove('visible'), 3000);
+        }
+    </script>
+</body>
+</html>
