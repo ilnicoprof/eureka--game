@@ -30,7 +30,6 @@ socket.emit('join_room', roomCode, (response) => {
     if (response.phrase) {
         currentPhrase = response.phrase;
         currentCategory = response.category || '';
-        initKeyboard();
         renderBoard();
     }
 });
@@ -81,9 +80,8 @@ socket.on('keyboard_state_updated', (state) => {
 
 socket.on('letter_guessed', (data) => {
     const { letter, playerId } = data;
-    const keyEl = document.querySelector(`.key[data-letter="${letter}"]`);
-    if (keyEl && !keyEl.classList.contains('used')) {
-        handleGuess(letter, keyEl);
+    if (!usedLetters.includes(letter)) {
+        handleGuess(letter);
         socket.emit('sync_players', players);
     }
 });
@@ -198,7 +196,6 @@ function playGrandWinSound() {
 }
 
 const boardEl = document.getElementById('board');
-const keyboardEl = document.getElementById('keyboard');
 const settingsBtn = document.getElementById('settings-btn');
 const modalEl = document.getElementById('teacher-modal');
 const closeBtn = document.getElementById('close-modal-btn');
@@ -209,12 +206,9 @@ const playersListEl = document.getElementById('players-list');
 const categoryInput = document.getElementById('category-input');
 const categoryDisplay = document.getElementById('category-display');
 
-const solutionInput = document.getElementById('solution-input');
-const solveBtn = document.getElementById('solve-btn');
 const winScreen = document.getElementById('congratulations-screen');
 const closeWinBtn = document.getElementById('close-win-btn');
 const winnerText = document.getElementById('winner-text');
-const toggleKeyboardBtn = document.getElementById('toggle-keyboard-btn');
 const toggleConsonantsBtn = document.getElementById('toggle-consonants-btn');
 const toggleVowelsBtn = document.getElementById('toggle-vowels-btn');
 const resetScoresBtn = document.getElementById('reset-scores-btn');
@@ -279,38 +273,6 @@ function updateTeacherKeyboardBtns() {
         toggleVowelsBtn.style.color = '#ef4444';
         toggleVowelsBtn.style.backgroundColor = 'transparent';
     }
-}
-
-toggleKeyboardBtn.addEventListener('click', () => {
-    keyboardEl.classList.toggle('hidden');
-    if (keyboardEl.classList.contains('hidden')) {
-        toggleKeyboardBtn.textContent = '⌨️ Mostra Tastiera LIM';
-    } else {
-        toggleKeyboardBtn.textContent = '⌨️ Nascondi Tastiera LIM';
-    }
-});
-
-const qwertyLayout = [
-    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-    ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
-];
-
-function initKeyboard() {
-    keyboardEl.innerHTML = '';
-    qwertyLayout.forEach(row => {
-        const rowEl = document.createElement('div');
-        rowEl.className = 'keyboard-row';
-        row.forEach(letter => {
-            const key = document.createElement('button');
-            key.className = 'key';
-            key.textContent = letter;
-            key.dataset.letter = letter;
-            key.addEventListener('click', () => handleGuess(letter, key));
-            rowEl.appendChild(key);
-        });
-        keyboardEl.appendChild(rowEl);
-    });
 }
 
 function renderBoard() {
@@ -446,18 +408,18 @@ function renderPlayers() {
     });
 }
 
-function handleGuess(letter, keyEl) {
+function handleGuess(letter) {
     if (!currentPhrase) return;
-    if (keyEl.classList.contains('used')) return;
     
     if (!usedLetters.includes(letter)) {
         usedLetters.push(letter);
         broadcastUsedLetters();
+    } else {
+        return; // Letter already used
     }
     
     if (currentPhrase.includes(letter)) {
         revealedLetters.add(letter);
-        keyEl.classList.add('used', 'found');
         
         const tiles = document.querySelectorAll(`.tile[data-char="${letter}"]`);
         
@@ -476,7 +438,6 @@ function handleGuess(letter, keyEl) {
         
         setTimeout(checkWin, tiles.length * 150 + 600);
     } else {
-        keyEl.classList.add('used', 'not-found');
         playErrorSound();
     }
 }
@@ -535,7 +496,6 @@ saveBtn.addEventListener('click', () => {
         revealedLetters.clear();
         usedLetters = [];
         broadcastUsedLetters();
-        initKeyboard();
         renderBoard();
         // Notify server about the new phrase
         socket.emit('update_room_phrase', { category: currentCategory, phrase: currentPhrase });
@@ -583,12 +543,12 @@ modalEl.addEventListener('click', (e) => {
 });
 
 // Gestione della soluzione
-solveBtn.addEventListener('click', () => {
+function checkSolution(guess, inputEl) {
     initAudio();
     if (!currentPhrase) return;
     
     const cleanCurrent = currentPhrase.replace(/[^A-Z]/g, '');
-    const cleanGuess = solutionInput.value.trim().toUpperCase().replace(/[^A-Z]/g, '');
+    const cleanGuess = guess.trim().toUpperCase().replace(/[^A-Z]/g, '');
     
     if (cleanGuess === cleanCurrent && cleanCurrent.length > 0) {
         playGrandWinSound();
@@ -611,9 +571,6 @@ solveBtn.addEventListener('click', () => {
         
         broadcastBoardState();
         
-        const keys = document.querySelectorAll('.key');
-        keys.forEach(k => k.classList.add('used'));
-        
         if (activePlayerIndex >= 0 && players[activePlayerIndex]) {
             winnerText.innerHTML = `Complimenti <b>${players[activePlayerIndex].name}</b>!<br>Hai dato la soluzione esatta!`;
             players[activePlayerIndex].score += unrevealedCount;
@@ -623,33 +580,39 @@ solveBtn.addEventListener('click', () => {
             winnerText.textContent = "Hai indovinato la soluzione esatta!";
         }
         
+        // Hide eureka banner and clear queue if it was open
+        eurekaBanner.classList.add('hidden');
+        socket.emit('eureka_dismiss_all');
+
         winScreen.classList.remove('hidden');
-        solutionInput.value = '';
+        if (inputEl) inputEl.value = '';
         
     } else {
         playSadSound();
-        solutionInput.classList.add('error-shake');
-        setTimeout(() => {
-            solutionInput.classList.remove('error-shake');
-        }, 500);
+        if (inputEl) {
+            inputEl.classList.add('error-shake');
+            setTimeout(() => {
+                inputEl.classList.remove('error-shake');
+            }, 500);
+        }
     }
-});
-
-solutionInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        solveBtn.click();
-    }
-});
+}
 
 closeWinBtn.addEventListener('click', () => {
     winScreen.classList.add('hidden');
 });
 
-// === EUREKA! PRENOTAZIONE ===
+// === EUREKA! CODA PRENOTAZIONI ===
 const eurekaBanner = document.getElementById('eureka-banner');
 const eurekaPlayerName = document.getElementById('eureka-player-name');
 const eurekaDismissBtn = document.getElementById('eureka-dismiss-btn');
+const eurekaDismissAllBtn = document.getElementById('eureka-dismiss-all-btn');
+const eurekaQueueList = document.getElementById('eureka-queue-list');
+const eurekaQueueItems = document.getElementById('eureka-queue-items');
+const eurekaSolutionInput = document.getElementById('eureka-solution-input');
+const eurekaSolveBtn = document.getElementById('eureka-solve-btn');
+
+let eurekaQueue = [];
 
 function playEurekaSound() {
     if (!audioCtx) initAudio();
@@ -678,22 +641,87 @@ function playEurekaSound() {
     } catch(e) {}
 }
 
-socket.on('eureka_announced', (data) => {
-    initAudio();
-    playEurekaSound();
-    eurekaPlayerName.innerHTML = `<b>${data.playerName}</b> si è prenotato per la soluzione!`;
+function renderEurekaQueue() {
+    if (eurekaQueue.length === 0) {
+        eurekaBanner.classList.add('hidden');
+        return;
+    }
+
+    // Mostra il banner con il primo in coda
+    const first = eurekaQueue[0];
+    eurekaPlayerName.innerHTML = `<b>${first.playerName}</b> si è prenotato per la soluzione!`;
     eurekaBanner.classList.remove('hidden');
+
+    // Auto-seleziona il primo giocatore in coda
+    const eurekaIdx = players.findIndex(p => p.name.toUpperCase() === first.playerName.toUpperCase());
+    if (eurekaIdx !== -1) {
+        activePlayerIndex = eurekaIdx;
+        renderPlayers();
+        if (players[eurekaIdx]) {
+            socket.emit('set_turn', players[eurekaIdx].id);
+        }
+    }
+
+    // Mostra lista coda se ci sono altri dopo il primo
+    if (eurekaQueue.length > 1) {
+        eurekaQueueList.style.display = 'block';
+        eurekaQueueItems.innerHTML = '';
+        // Mostra dal secondo in poi
+        for (let i = 1; i < eurekaQueue.length; i++) {
+            const item = document.createElement('div');
+            item.className = 'queue-item';
+            item.innerHTML = `<span class="queue-pos">${i + 1}</span> ${eurekaQueue[i].playerName}`;
+            eurekaQueueItems.appendChild(item);
+        }
+    } else {
+        eurekaQueueList.style.display = 'none';
+    }
+
+    // Aggiorna testo pulsante
+    if (eurekaQueue.length > 1) {
+        eurekaDismissBtn.textContent = `▶ Avanti (${eurekaQueue.length - 1} in coda)`;
+    } else {
+        eurekaDismissBtn.textContent = '✕ Chiudi';
+    }
+}
+
+socket.on('eureka_queue_updated', (queue) => {
+    const wasEmpty = eurekaQueue.length === 0;
+    eurekaQueue = queue;
+    
+    // Suona solo quando arriva una nuova prenotazione
+    if (queue.length > 0 && (wasEmpty || queue.length > eurekaQueue.length)) {
+        initAudio();
+        playEurekaSound();
+    }
+    
+    renderEurekaQueue();
 });
 
 eurekaDismissBtn.addEventListener('click', () => {
-    eurekaBanner.classList.add('hidden');
     socket.emit('eureka_dismiss');
+    if (eurekaSolutionInput) eurekaSolutionInput.value = '';
 });
 
-socket.on('eureka_reset', () => {
-    eurekaBanner.classList.add('hidden');
+eurekaDismissAllBtn.addEventListener('click', () => {
+    socket.emit('eureka_dismiss_all');
+    if (eurekaSolutionInput) eurekaSolutionInput.value = '';
 });
 
-initKeyboard();
+if (eurekaSolveBtn) {
+    eurekaSolveBtn.addEventListener('click', () => {
+        checkSolution(eurekaSolutionInput.value, eurekaSolutionInput);
+    });
+}
+
+if (eurekaSolutionInput) {
+    eurekaSolutionInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            checkSolution(eurekaSolutionInput.value, eurekaSolutionInput);
+        }
+    });
+}
+
 renderBoard();
 renderPlayers();

@@ -50,16 +50,7 @@
                 <button id="toggle-vowels-btn" class="secondary-btn" style="margin: 0; border-color: #ef4444; color: #ef4444; min-width: 160px;">🅰️ Vocali OFF</button>
             </div>
 
-            <button id="toggle-keyboard-btn" class="secondary-btn" style="margin-bottom: 20px;">⌨️ Mostra Tastiera LIM</button>
 
-            <div id="keyboard" class="keyboard hidden">
-                <!-- Keyboard buttons will be generated here -->
-            </div>
-
-            <div class="solution-section">
-                <input type="text" id="solution-input" class="text-input" placeholder="Vuoi dare la soluzione completa? Scrivila qui...">
-                <button id="solve-btn" class="primary-btn">Verifica</button>
-            </div>
         </main>
     </div>
 
@@ -100,19 +91,58 @@
         </div>
     </div>
 
-    <!-- Banner EUREKA! prenotazione -->
+    <!-- Banner EUREKA! con coda prenotazioni -->
     <div id="eureka-banner" class="modal hidden">
         <div class="modal-content glassmorphism" style="text-align: center; border-color: #f59e0b; box-shadow: 0 0 80px rgba(245, 158, 11, 0.6), 0 0 200px rgba(245, 158, 11, 0.2); max-width: 700px;">
             <div style="font-size: 8rem; margin-bottom: 0; animation: eureka-pulse 1s infinite; filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.8));">💡</div>
             <h2 style="font-size: 4rem; color: #fbbf24; margin: 10px 0; text-shadow: 0 0 20px rgba(251, 191, 36, 0.8); letter-spacing: 6px; text-transform: uppercase;">EUREKA!</h2>
-            <p id="eureka-player-name" style="font-size: 2rem; margin-bottom: 30px; color: #ffffff;"></p>
-            <button id="eureka-dismiss-btn" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-size: 1.3rem; padding: 15px 50px;">✕ Chiudi</button>
+            <p id="eureka-player-name" style="font-size: 2rem; margin-bottom: 15px; color: #ffffff;"></p>
+
+            <!-- Lista coda -->
+            <div id="eureka-queue-list" style="margin-bottom: 20px; display: none;">
+                <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">📋 In coda:</div>
+                <div id="eureka-queue-items" style="display: flex; flex-direction: column; gap: 6px; align-items: center;"></div>
+            </div>
+
+            <!-- Inserimento soluzione diretto -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+                <input type="text" id="eureka-solution-input" class="text-input" placeholder="Soluzione dell'alunno..." style="max-width: 300px; text-align: center;">
+                <button id="eureka-solve-btn" class="primary-btn" style="padding: 10px 20px;">Verifica</button>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <button id="eureka-dismiss-btn" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-size: 1.3rem; padding: 15px 40px;">▶ Avanti</button>
+                <button id="eureka-dismiss-all-btn" class="secondary-btn" style="border-color: #ef4444; color: #ef4444; font-size: 1rem; padding: 15px 30px;">✕ Chiudi Tutti</button>
+            </div>
         </div>
     </div>
     <style>
         @keyframes eureka-pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
+        }
+        #eureka-queue-items .queue-item {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 6px 18px;
+            color: #fcd34d;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #eureka-queue-items .queue-item .queue-pos {
+            background: rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
         }
     </style>
 
