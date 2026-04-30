@@ -1,6 +1,6 @@
 # 💡 Eureka! v5.1
 
-Eureka! è un gioco didattico multiplayer in tempo reale, ispirato al famoso gioco televisivo "La Ruota della Fortuna", ma ottimizzato appositamente per l'uso in classe tramite la **LIM (Lavagna Interattiva Multimediale)** e i dispositivi degli studenti (smartphone/tablet).
+Eureka! è un gioco didattico multiplayer in tempo reale, ottimizzato appositamente per l'uso in classe tramite la **LIM (Lavagna Interattiva Multimediale)** e i dispositivi degli studenti (smartphone/tablet).
 
 ## ✨ Funzionalità Principali
 
