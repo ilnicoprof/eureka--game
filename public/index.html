@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eureka! — Crea il tuo gioco</title>
     <meta name="description" content="Eureka! — Il gioco educativo a quiz per la classe. Crea una partita e condividi il link con i tuoi studenti.">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glass-bg: rgba(15, 23, 42, 0.7);
-            --glass-border: rgba(59, 130, 246, 0.3);
-            --text-primary: #f8fafc;
-            --text-secondary: #bfdbfe;
-            --accent-color: #60a5fa;
-            --accent-hover: #3b82f6;
+            --accent-color: #0070B8;
+            --accent-hover: #005a94;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --teal: #26A69A;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: #0f172a url('bg.png') center/cover no-repeat fixed;
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 50%, #fff7ed 100%);
+            background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
@@ -41,12 +41,11 @@
         }
 
         .setup-card {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid var(--glass-border);
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
             padding: 40px;
             border-radius: 24px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 112, 184, 0.12);
         }
 
         .logo-section {
@@ -59,23 +58,21 @@
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 4px;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 40px rgba(96, 165, 250, 0.4);
+            color: var(--accent-color);
             margin-bottom: 5px;
         }
 
         .logo-section .subtitle {
             font-size: 1.1rem;
             color: var(--text-secondary);
-            font-weight: 400;
-            letter-spacing: 1px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .logo-icon {
             font-size: 4rem;
             display: block;
             margin-bottom: 10px;
-            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.6));
             animation: float 3s ease-in-out infinite;
         }
 
@@ -85,8 +82,8 @@
         }
 
         .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
             margin: 25px 0;
         }
 
@@ -99,7 +96,7 @@
             margin-bottom: 8px;
             color: var(--text-secondary);
             font-size: 1.05rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .input-group label .hint {
@@ -110,12 +107,12 @@
 
         input, textarea {
             width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--glass-border);
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
             color: var(--text-primary);
             padding: 14px 16px;
             border-radius: 12px;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Nunito', sans-serif;
             font-size: 1.15rem;
             resize: none;
             outline: none;
@@ -124,18 +121,18 @@
 
         input:focus, textarea:focus {
             border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.25);
+            box-shadow: 0 0 0 3px rgba(0, 112, 184, 0.1);
         }
 
         input::placeholder, textarea::placeholder {
-            color: rgba(191, 219, 254, 0.4);
+            color: #94a3b8;
         }
 
         .create-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #0f172a;
+            background: var(--accent-color);
+            color: #ffffff;
             border: none;
             border-radius: 14px;
             font-size: 1.3rem;
@@ -145,11 +142,13 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-top: 10px;
+            font-family: 'Nunito', sans-serif;
         }
 
         .create-btn:hover {
+            background: var(--accent-hover);
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 112, 184, 0.35);
         }
 
         .create-btn:active {
@@ -174,12 +173,11 @@
         }
 
         .success-card {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(16, 185, 129, 0.4);
+            background: #ffffff;
+            border: 2px solid #d1fae5;
             padding: 40px;
             border-radius: 24px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.1);
-            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(38, 166, 154, 0.12);
             text-align: center;
         }
 
@@ -196,14 +194,14 @@
         }
 
         .success-card h2 {
-            color: #10b981;
+            color: var(--teal);
             font-size: 2rem;
             margin-bottom: 20px;
         }
 
         .link-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(16, 185, 129, 0.3);
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 15px;
@@ -215,12 +213,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .link-url {
             font-size: 1.1rem;
-            color: #10b981;
+            color: var(--teal);
             word-break: break-all;
             font-weight: 700;
             line-height: 1.4;
@@ -229,32 +227,32 @@
         .copy-btn {
             width: 100%;
             padding: 12px;
-            background: rgba(16, 185, 129, 0.2);
-            border: 2px solid #10b981;
-            color: #10b981;
+            background: #f0fdf4;
+            border: 2px solid var(--teal);
+            color: var(--teal);
             border-radius: 10px;
             font-size: 1.05rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Nunito', sans-serif;
             margin-bottom: 10px;
         }
 
         .copy-btn:hover {
-            background: rgba(16, 185, 129, 0.35);
+            background: #d1fae5;
         }
 
         .copy-btn.copied {
-            background: #10b981;
-            color: #0f172a;
+            background: var(--teal);
+            color: #ffffff;
         }
 
         .go-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
-            color: #0f172a;
+            background: var(--accent-color);
+            color: #ffffff;
             border: none;
             border-radius: 14px;
             font-size: 1.2rem;
@@ -264,15 +262,17 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-top: 15px;
+            font-family: 'Nunito', sans-serif;
         }
 
         .go-btn:hover {
+            background: var(--accent-hover);
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 112, 184, 0.35);
         }
 
         .error-msg {
-            color: #f87171;
+            color: #ef4444;
             font-size: 0.95rem;
             margin-top: 10px;
             display: none;
@@ -289,18 +289,64 @@
             75% { transform: translateX(8px); }
         }
 
-        /* Teacher logo */
-        .teacher-logo {
+        /* Background decorations */
+        .bg-decorations { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+        .bg-decorations > div { position: absolute; }
+        @keyframes deco-bob { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+        @keyframes deco-pencil-float { 0%,100% { transform: rotate(22deg) translateY(0px); } 50% { transform: rotate(24deg) translateY(-10px); } }
+        @keyframes deco-pen-float { 0%,100% { transform: rotate(-18deg) translateY(0px); } 50% { transform: rotate(-15deg) translateY(-8px); } }
+        @keyframes deco-book-drift { 0%,100% { transform: rotate(-7deg) translateX(0px); } 50% { transform: rotate(-5deg) translateX(-10px); } }
+        @keyframes deco-ruler-float { 0%,100% { transform: rotate(-10deg) translateY(0px); } 50% { transform: rotate(-8deg) translateY(-7px); } }
+
+        /* Powered by badge */
+        .powered-badge {
             position: fixed;
-            bottom: 20px;
-            right: 30px;
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
+            bottom: 16px;
+            right: 16px;
+            z-index: 40;
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: 9999px;
+            padding: 6px 16px 6px 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.85;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+        .powered-badge:hover {
+            opacity: 1;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .powered-badge-img {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            opacity: 0.4;
-            pointer-events: none;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            flex-shrink: 0;
+        }
+        .powered-badge-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .powered-badge-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #64748b;
+            white-space: nowrap;
+            font-family: 'Nunito', sans-serif;
+        }
+        .powered-badge-text strong {
+            font-weight: 800;
+            color: #0f172a;
         }
 
         @media (max-width: 600px) {
@@ -310,16 +356,164 @@
             .logo-section h1 {
                 font-size: 2.5rem;
             }
-            .teacher-logo {
-                width: 70px;
-                height: 70px;
-                bottom: 10px;
-                right: 10px;
-            }
         }
     </style>
 </head>
 <body>
+
+    <!-- Decorazioni di sfondo -->
+    <div class="bg-decorations" aria-hidden="true">
+
+        <!-- Lampadina — in alto a sinistra -->
+        <div style="top:-10px;left:20px;animation:deco-bob 5s ease-in-out infinite;">
+            <svg viewBox="0 0 100 130" width="110" height="143" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.20)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M50 12 C30 12 16 27 16 47 C16 62 26 73 31 83 L37 103 L63 103 L69 83 C74 73 84 62 84 47 C84 27 70 12 50 12 Z"/>
+                <path d="M37 103 L63 103 L63 113 L37 113 Z"/>
+                <path d="M41 113 L59 113 L50 126 Z"/>
+                <line x1="50" y1="4" x2="50" y2="0"/><line x1="88" y1="22" x2="93" y2="16"/><line x1="12" y1="22" x2="7" y2="16"/><line x1="96" y1="47" x2="101" y2="47"/><line x1="4" y1="47" x2="-1" y2="47"/>
+            </svg>
+        </div>
+
+        <!-- Libro aperto — in alto a destra -->
+        <div style="top:-35px;right:-55px;animation:deco-book-drift 7s ease-in-out infinite;">
+            <svg viewBox="0 0 200 150" width="300" height="225" fill="rgba(0,112,184,0.05)" stroke="rgba(0,112,184,0.15)" stroke-width="2" stroke-linecap="round">
+                <path d="M10 140 C10 140 50 125 100 125 L100 5 C50 5 10 20 10 20 Z"/>
+                <path d="M100 125 C150 125 190 140 190 140 L190 20 C150 5 100 5 100 5 Z"/>
+                <line x1="25" y1="38" x2="85" y2="38"/><line x1="25" y1="56" x2="85" y2="56"/><line x1="25" y1="74" x2="85" y2="74"/><line x1="25" y1="92" x2="85" y2="92"/>
+                <line x1="115" y1="38" x2="175" y2="38"/><line x1="115" y1="56" x2="175" y2="56"/><line x1="115" y1="74" x2="175" y2="74"/>
+            </svg>
+        </div>
+
+        <!-- Matita — in basso a sinistra -->
+        <div style="bottom:55px;left:55px;animation:deco-pencil-float 6s ease-in-out infinite;">
+            <svg viewBox="0 0 32 155" width="32" height="155" fill="rgba(239,125,0,0.08)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="2" width="16" height="14" rx="3"/>
+                <rect x="7" y="16" width="18" height="8" rx="1"/>
+                <rect x="8" y="24" width="16" height="88" rx="1"/>
+                <line x1="16" y1="24" x2="16" y2="112" stroke-opacity="0.35"/>
+                <polygon points="8,112 24,112 16,147"/>
+                <circle cx="16" cy="150" r="2" fill="rgba(239,125,0,0.25)" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Penna stilografica — a metà destra -->
+        <div style="top:42%;right:25px;animation:deco-pen-float 5.5s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 28 160" width="28" height="160" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.20)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 30 L6 6 Q14 0 22 6 L22 30 Z"/>
+                <rect x="19" y="3" width="4" height="28" rx="2" fill="rgba(0,112,184,0.12)" stroke-opacity="0.3"/>
+                <path d="M6 30 L5 115 L23 115 L22 30 Z"/>
+                <line x1="14" y1="30" x2="14" y2="115" stroke-opacity="0.25"/>
+                <path d="M5 115 L6 128 L22 128 L23 115 Z" fill="rgba(0,112,184,0.12)"/>
+                <path d="M6 128 L22 128 L14 155 Z"/>
+            </svg>
+        </div>
+
+        <!-- Righello — in basso al centro -->
+        <div style="bottom:75px;left:50%;transform:translateX(-50%) rotate(-10deg);animation:deco-ruler-float 8s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 240 55" width="220" height="50" fill="rgba(38,166,154,0.07)" stroke="rgba(38,166,154,0.22)" stroke-width="1.5" stroke-linecap="round">
+                <rect x="5" y="7" width="230" height="38" rx="4"/>
+                <line x1="25" y1="7" x2="25" y2="25"/><line x1="45" y1="7" x2="45" y2="18"/><line x1="65" y1="7" x2="65" y2="25"/><line x1="85" y1="7" x2="85" y2="18"/><line x1="105" y1="7" x2="105" y2="25"/>
+                <line x1="125" y1="7" x2="125" y2="25"/><line x1="145" y1="7" x2="145" y2="18"/><line x1="165" y1="7" x2="165" y2="25"/><line x1="185" y1="7" x2="185" y2="18"/><line x1="205" y1="7" x2="205" y2="25"/>
+                <circle cx="18" cy="26" r="4" fill="none" stroke="rgba(38,166,154,0.28)"/>
+            </svg>
+        </div>
+
+        <!-- Beuta — sinistra centro -->
+        <div style="top:30%;left:15px;animation:deco-bob 6s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 70 115" width="65" height="108" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 76 C21 71 49 71 59 76 C62 83 65 93 65 93 Q65 112 35 112 Q5 112 5 93 C5 93 8 83 11 76 Z" fill="rgba(38,166,154,0.13)" stroke="none"/>
+                <path d="M29 32 C26 44 5 68 5 93 Q5 112 35 112 Q65 112 65 93 C65 68 44 44 41 32 Z" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.22)" stroke-width="1.8"/>
+                <rect x="29" y="8" width="12" height="24" rx="2" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.22)" stroke-width="1.8"/>
+                <rect x="25" y="1" width="20" height="9" rx="3" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.28)" stroke-width="1.8"/>
+                <circle cx="24" cy="68" r="3.5" fill="none" stroke="rgba(38,166,154,0.28)" stroke-width="1.2"/>
+                <circle cx="47" cy="63" r="2.5" fill="none" stroke="rgba(38,166,154,0.22)" stroke-width="1"/>
+                <circle cx="33" cy="60" r="2" fill="none" stroke="rgba(38,166,154,0.18)" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <!-- DNA doppia elica — destra centro-basso -->
+        <div style="bottom:80px;right:18px;animation:deco-bob 9s ease-in-out infinite 0.3s;">
+            <svg viewBox="0 0 60 200" width="50" height="167" fill="none" stroke-linecap="round">
+                <line x1="12" y1="0"   x2="48" y2="0"   stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="12"  x2="40" y2="12"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="28"  x2="40" y2="28"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="40"  x2="48" y2="40"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="52"  x2="40" y2="52"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="68"  x2="40" y2="68"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="80"  x2="48" y2="80"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="92"  x2="40" y2="92"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="108" x2="40" y2="108" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="120" x2="48" y2="120" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="132" x2="40" y2="132" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="148" x2="40" y2="148" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="160" x2="48" y2="160" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="172" x2="40" y2="172" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="188" x2="40" y2="188" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="200" x2="48" y2="200" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <path d="M12,0 C12,22 48,18 48,40 C48,62 12,58 12,80 C12,102 48,98 48,120 C48,142 12,138 12,160 C12,182 48,178 48,200" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <path d="M48,0 C48,22 12,18 12,40 C12,62 48,58 48,80 C48,102 12,98 12,120 C12,142 48,138 48,160 C48,182 12,178 12,200" stroke="rgba(0,112,184,0.14)" stroke-width="2.5"/>
+            </svg>
+        </div>
+
+        <!-- Atomo — alto centro -->
+        <div style="top:8%;left:50%;transform:translateX(-50%);animation:deco-bob 11s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 120 100" width="105" height="88" fill="none" stroke-linecap="round">
+                <circle cx="60" cy="50" r="7" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.25)" stroke-width="1.5"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.14)" stroke-width="1.2"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.14)" stroke-width="1.2" transform="rotate(60 60 50)"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.14)" stroke-width="1.2" transform="rotate(120 60 50)"/>
+                <circle cx="115" cy="50" r="4" fill="rgba(0,112,184,0.22)" stroke="none"/>
+                <circle cx="33"  cy="25" r="4" fill="rgba(0,112,184,0.22)" stroke="none"/>
+                <circle cx="33"  cy="75" r="4" fill="rgba(0,112,184,0.22)" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Compasso — sinistra alta -->
+        <div style="top:10%;left:25px;animation:deco-bob 7s ease-in-out infinite 3s;">
+            <svg viewBox="0 0 60 130" width="52" height="113" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="30" cy="10" r="5" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
+                <line x1="30" y1="10" x2="8"  y2="118" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <line x1="30" y1="10" x2="52" y2="118" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <path d="M4,114 L12,114 L8,128 Z" fill="rgba(239,125,0,0.15)" stroke="rgba(239,125,0,0.25)" stroke-width="1"/>
+                <path d="M48,114 L56,114 L52,128 Z" fill="rgba(0,112,184,0.15)" stroke="rgba(0,112,184,0.22)" stroke-width="1"/>
+                <line x1="16" y1="55" x2="44" y2="55" stroke="rgba(0,112,184,0.18)" stroke-width="2"/>
+                <circle cx="30" cy="55" r="4" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
+            </svg>
+        </div>
+
+        <!-- Note musicali — zona centro destra -->
+        <div style="top:42%;right:20px;animation:deco-bob 6s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 65 55" width="58" height="49" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="43" rx="9" ry="7" transform="rotate(-20 12 43)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
+                <line x1="19" y1="40" x2="19" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
+                <ellipse cx="46" cy="46" rx="9" ry="7" transform="rotate(-20 46 46)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
+                <line x1="53" y1="43" x2="53" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
+                <line x1="19" y1="10" x2="53" y2="10" stroke="rgba(239,125,0,0.25)" stroke-width="3"/>
+            </svg>
+        </div>
+
+        <!-- π — alto destra -->
+        <div style="top:15%;right:120px;font-size:4.5rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.09);user-select:none;animation:deco-bob 8s ease-in-out infinite 1.5s;">π</div>
+
+        <!-- √ — sinistra centro -->
+        <div style="top:48%;left:20px;font-size:3.8rem;font-family:'Georgia',serif;color:rgba(239,125,0,0.09);user-select:none;animation:deco-bob 7s ease-in-out infinite 2.5s;">√</div>
+
+        <!-- ∞ — bassa sinistra -->
+        <div style="bottom:35%;left:70px;font-size:3.2rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.09);user-select:none;animation:deco-bob 10s ease-in-out infinite 0.8s;">∞</div>
+
+        <!-- Σ — centro -->
+        <div style="top:65%;left:50%;margin-left:-200px;font-size:3.5rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.08);user-select:none;animation:deco-bob 9s ease-in-out infinite 4s;">Σ</div>
+
+        <!-- + — alto sinistra centro -->
+        <div style="top:22%;left:50%;margin-left:-180px;font-size:3rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 6s ease-in-out infinite 4s;">+</div>
+
+        <!-- × — basso destra centro -->
+        <div style="bottom:18%;left:50%;margin-left:100px;font-size:2.8rem;font-weight:800;color:rgba(239,125,0,0.08);user-select:none;animation:deco-bob 7s ease-in-out infinite 1.8s;">×</div>
+
+        <!-- = — bassa destra -->
+        <div style="bottom:25%;right:110px;font-size:3rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 8s ease-in-out infinite 3s;">=</div>
+
+    </div>
 
     <div class="setup-container">
         <!-- SETUP FORM -->
@@ -359,9 +553,9 @@
 
                 <button id="copy-btn" class="copy-btn">📋 Copia Link</button>
 
-                <div class="link-box" style="border-color: rgba(96, 165, 250, 0.3);">
-                    <div class="link-label" style="color: #60a5fa;">🖥️ Codice Stanza</div>
-                    <div id="room-code-display" class="link-url" style="color: #60a5fa; font-size: 2rem; letter-spacing: 6px;"></div>
+                <div class="link-box" style="background: #eff6ff; border-color: #bfdbfe;">
+                    <div class="link-label" style="color: #0070B8;">🖥️ Codice Stanza</div>
+                    <div id="room-code-display" class="link-url" style="color: #0070B8; font-size: 2rem; letter-spacing: 6px;"></div>
                 </div>
 
                 <button id="go-btn" class="go-btn">▶️ Vai al Gioco</button>
@@ -369,7 +563,12 @@
         </div>
     </div>
 
-    <img src="logo.png" alt="Logo" class="teacher-logo">
+    <div class="powered-badge">
+        <div class="powered-badge-img">
+            <img src="logo.png" alt="ilnicoprof logo">
+        </div>
+        <span class="powered-badge-text">Powered by <strong>ilnicoprof</strong></span>
+    </div>
 
     <script>
         const createBtn = document.getElementById('create-btn');

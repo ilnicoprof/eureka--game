@@ -5,15 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eureka!</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <!-- Decorazioni di sfondo -->
+    <div class="bg-decorations" aria-hidden="true">
+
+        <!-- Lampadina — in alto a sinistra -->
+        <div style="top:-10px;left:20px;animation:deco-bob 5s ease-in-out infinite;">
+            <svg viewBox="0 0 100 130" width="110" height="143" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.20)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M50 12 C30 12 16 27 16 47 C16 62 26 73 31 83 L37 103 L63 103 L69 83 C74 73 84 62 84 47 C84 27 70 12 50 12 Z"/>
+                <path d="M37 103 L63 103 L63 113 L37 113 Z"/>
+                <path d="M41 113 L59 113 L50 126 Z"/>
+                <line x1="50" y1="4" x2="50" y2="0"/><line x1="88" y1="22" x2="93" y2="16"/><line x1="12" y1="22" x2="7" y2="16"/><line x1="96" y1="47" x2="101" y2="47"/><line x1="4" y1="47" x2="-1" y2="47"/>
+            </svg>
+        </div>
+
+        <!-- Libro aperto — in alto a destra -->
+        <div style="top:-35px;right:-55px;animation:deco-book-drift 7s ease-in-out infinite;">
+            <svg viewBox="0 0 200 150" width="320" height="240" fill="rgba(0,112,184,0.05)" stroke="rgba(0,112,184,0.15)" stroke-width="2" stroke-linecap="round">
+                <path d="M10 140 C10 140 50 125 100 125 L100 5 C50 5 10 20 10 20 Z"/>
+                <path d="M100 125 C150 125 190 140 190 140 L190 20 C150 5 100 5 100 5 Z"/>
+                <line x1="25" y1="38" x2="85" y2="38"/><line x1="25" y1="56" x2="85" y2="56"/><line x1="25" y1="74" x2="85" y2="74"/><line x1="25" y1="92" x2="85" y2="92"/>
+                <line x1="115" y1="38" x2="175" y2="38"/><line x1="115" y1="56" x2="175" y2="56"/><line x1="115" y1="74" x2="175" y2="74"/>
+            </svg>
+        </div>
+
+        <!-- Matita — in basso a sinistra -->
+        <div style="bottom:55px;left:55px;animation:deco-pencil-float 6s ease-in-out infinite;">
+            <svg viewBox="0 0 32 155" width="32" height="155" fill="rgba(239,125,0,0.08)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="2" width="16" height="14" rx="3"/>
+                <rect x="7" y="16" width="18" height="8" rx="1"/>
+                <rect x="8" y="24" width="16" height="88" rx="1"/>
+                <line x1="16" y1="24" x2="16" y2="112" stroke-opacity="0.35"/>
+                <polygon points="8,112 24,112 16,147"/>
+                <circle cx="16" cy="150" r="2" fill="rgba(239,125,0,0.25)" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Penna stilografica — a metà destra -->
+        <div style="top:42%;right:25px;animation:deco-pen-float 5.5s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 28 160" width="28" height="160" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.20)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 30 L6 6 Q14 0 22 6 L22 30 Z"/>
+                <rect x="19" y="3" width="4" height="28" rx="2" fill="rgba(0,112,184,0.12)" stroke-opacity="0.3"/>
+                <path d="M6 30 L5 115 L23 115 L22 30 Z"/>
+                <line x1="14" y1="30" x2="14" y2="115" stroke-opacity="0.25"/>
+                <path d="M5 115 L6 128 L22 128 L23 115 Z" fill="rgba(0,112,184,0.12)"/>
+                <path d="M6 128 L22 128 L14 155 Z"/>
+            </svg>
+        </div>
+
+        <!-- Righello — in basso al centro-destra -->
+        <div style="bottom:75px;right:190px;animation:deco-ruler-float 8s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 240 55" width="220" height="50" fill="rgba(38,166,154,0.07)" stroke="rgba(38,166,154,0.22)" stroke-width="1.5" stroke-linecap="round">
+                <rect x="5" y="7" width="230" height="38" rx="4"/>
+                <line x1="25" y1="7" x2="25" y2="25"/><line x1="45" y1="7" x2="45" y2="18"/><line x1="65" y1="7" x2="65" y2="25"/><line x1="85" y1="7" x2="85" y2="18"/><line x1="105" y1="7" x2="105" y2="25"/>
+                <line x1="125" y1="7" x2="125" y2="25"/><line x1="145" y1="7" x2="145" y2="18"/><line x1="165" y1="7" x2="165" y2="25"/><line x1="185" y1="7" x2="185" y2="18"/><line x1="205" y1="7" x2="205" y2="25"/>
+                <circle cx="18" cy="26" r="4" fill="none" stroke="rgba(38,166,154,0.28)"/>
+            </svg>
+        </div>
+
+        <!-- Beuta — sinistra area gioco (visibile oltre la sidebar) -->
+        <div style="top:32%;left:335px;animation:deco-bob 6s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 70 115" width="65" height="108" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 76 C21 71 49 71 59 76 C62 83 65 93 65 93 Q65 112 35 112 Q5 112 5 93 C5 93 8 83 11 76 Z" fill="rgba(38,166,154,0.13)" stroke="none"/>
+                <path d="M29 32 C26 44 5 68 5 93 Q5 112 35 112 Q65 112 65 93 C65 68 44 44 41 32 Z" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.22)" stroke-width="1.8"/>
+                <rect x="29" y="8" width="12" height="24" rx="2" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.22)" stroke-width="1.8"/>
+                <rect x="25" y="1" width="20" height="9" rx="3" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.28)" stroke-width="1.8"/>
+                <circle cx="24" cy="68" r="3.5" fill="none" stroke="rgba(38,166,154,0.28)" stroke-width="1.2"/>
+                <circle cx="47" cy="63" r="2.5" fill="none" stroke="rgba(38,166,154,0.22)" stroke-width="1"/>
+                <circle cx="33" cy="60" r="2" fill="none" stroke="rgba(38,166,154,0.18)" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <!-- DNA doppia elica — basso sinistra area gioco -->
+        <div style="bottom:50px;left:338px;animation:deco-bob 9s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 60 200" width="55" height="183" fill="none" stroke-linecap="round">
+                <!-- coppie di basi: lunghe ai poli, corte al centro -->
+                <line x1="12" y1="0"   x2="48" y2="0"   stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="12"  x2="40" y2="12"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="28"  x2="40" y2="28"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="40"  x2="48" y2="40"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="52"  x2="40" y2="52"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="68"  x2="40" y2="68"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="80"  x2="48" y2="80"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="92"  x2="40" y2="92"  stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="108" x2="40" y2="108" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="120" x2="48" y2="120" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="132" x2="40" y2="132" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="148" x2="40" y2="148" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="160" x2="48" y2="160" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="172" x2="40" y2="172" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="20" y1="188" x2="40" y2="188" stroke="rgba(0,112,184,0.11)" stroke-width="1.2"/>
+                <line x1="12" y1="200" x2="48" y2="200" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <!-- filamento 1 — curva sinusoidale bezier (parte da sinistra) -->
+                <path d="M12,0 C12,22 48,18 48,40 C48,62 12,58 12,80 C12,102 48,98 48,120 C48,142 12,138 12,160 C12,182 48,178 48,200" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <!-- filamento 2 — curva opposta (parte da destra) -->
+                <path d="M48,0 C48,22 12,18 12,40 C12,62 48,58 48,80 C48,102 12,98 12,120 C12,142 48,138 48,160 C48,182 12,178 12,200" stroke="rgba(0,112,184,0.15)" stroke-width="2.5"/>
+            </svg>
+        </div>
+
+        <!-- Atomo — area alta gioco -->
+        <div style="top:6%;right:230px;animation:deco-bob 11s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 120 100" width="110" height="92" fill="none" stroke-linecap="round">
+                <circle cx="60" cy="50" r="7" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.25)" stroke-width="1.5"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.14)" stroke-width="1.2"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.14)" stroke-width="1.2" transform="rotate(60 60 50)"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.14)" stroke-width="1.2" transform="rotate(120 60 50)"/>
+                <circle cx="115" cy="50" r="4" fill="rgba(0,112,184,0.22)" stroke="none"/>
+                <circle cx="33"  cy="25" r="4" fill="rgba(0,112,184,0.22)" stroke="none"/>
+                <circle cx="33"  cy="75" r="4" fill="rgba(0,112,184,0.22)" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Compasso — centro alto gioco -->
+        <div style="top:14%;left:440px;animation:deco-bob 7s ease-in-out infinite 3s;">
+            <svg viewBox="0 0 60 130" width="55" height="119" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="30" cy="10" r="5" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
+                <line x1="30" y1="10" x2="8"  y2="118" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <line x1="30" y1="10" x2="52" y2="118" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <path d="M4,114 L12,114 L8,128 Z" fill="rgba(239,125,0,0.15)" stroke="rgba(239,125,0,0.25)" stroke-width="1"/>
+                <path d="M48,114 L56,114 L52,128 Z" fill="rgba(0,112,184,0.15)" stroke="rgba(0,112,184,0.22)" stroke-width="1"/>
+                <line x1="16" y1="55" x2="44" y2="55" stroke="rgba(0,112,184,0.18)" stroke-width="2"/>
+                <circle cx="30" cy="55" r="4" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
+            </svg>
+        </div>
+
+        <!-- Note musicali — zona destra media -->
+        <div style="top:48%;right:340px;animation:deco-bob 6s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 65 55" width="60" height="50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="43" rx="9" ry="7" transform="rotate(-20 12 43)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
+                <line x1="19" y1="40" x2="19" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
+                <ellipse cx="46" cy="46" rx="9" ry="7" transform="rotate(-20 46 46)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
+                <line x1="53" y1="43" x2="53" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
+                <line x1="19" y1="10" x2="53" y2="10" stroke="rgba(239,125,0,0.25)" stroke-width="3"/>
+            </svg>
+        </div>
+
+        <!-- π — area centrale -->
+        <div style="top:18%;right:310px;font-size:4rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.09);user-select:none;animation:deco-bob 8s ease-in-out infinite 1.5s;">π</div>
+
+        <!-- √ — area centrale bassa -->
+        <div style="bottom:28%;right:260px;font-size:3.5rem;font-family:'Georgia',serif;color:rgba(239,125,0,0.09);user-select:none;animation:deco-bob 7s ease-in-out infinite 3s;">√</div>
+
+        <!-- ∞ — mid area destra -->
+        <div style="top:55%;right:360px;font-size:3.2rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.09);user-select:none;animation:deco-bob 10s ease-in-out infinite 0.8s;">∞</div>
+
+        <!-- + — area alta gioco -->
+        <div style="top:12%;right:420px;font-size:3rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 6s ease-in-out infinite 4s;">+</div>
+
+        <!-- × — bassa destra -->
+        <div style="bottom:22%;right:80px;font-size:2.8rem;font-weight:800;color:rgba(239,125,0,0.08);user-select:none;animation:deco-bob 7s ease-in-out infinite 2s;">×</div>
+
+        <!-- Σ — bassa sinistra gioco -->
+        <div style="bottom:30%;left:355px;font-size:3.8rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.09);user-select:none;animation:deco-bob 9s ease-in-out infinite 4s;">Σ</div>
+
+        <!-- Δ — centro gioco -->
+        <div style="top:38%;left:470px;font-size:3.2rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 8s ease-in-out infinite 1s;">Δ</div>
+
+        <!-- = — area alta destra -->
+        <div style="top:28%;right:160px;font-size:3rem;font-weight:800;color:rgba(38,166,154,0.08);user-select:none;animation:deco-bob 6s ease-in-out infinite 5s;">=</div>
+
+        <!-- 42 — numero, zona bassa centro -->
+        <div style="bottom:14%;right:400px;font-size:3.5rem;font-weight:800;font-family:'Nunito',sans-serif;color:rgba(239,125,0,0.07);user-select:none;animation:deco-bob 11s ease-in-out infinite 2.5s;">42</div>
+
+    </div>
+
     <div class="app-container">
         <!-- Sidebar per i giocatori -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>🧑‍🔬 Giocatori</h2>
-                <button id="reset-scores-btn" class="secondary-btn" style="width: 100%; margin-top: 10px; padding: 8px; font-size: 0.9rem; border-color: #fbbf24; color: #fbbf24;">🔄 Azzera Punteggi</button>
+                <button id="reset-scores-btn" class="secondary-btn" style="width: 100%; margin-top: 10px; padding: 8px; font-size: 0.9rem; border-color: #EF7D00; color: #EF7D00;">🔄 Azzera Punteggi</button>
             </div>
             <div id="players-list" class="players-list">
                 <!-- I giocatori appariranno qui -->
@@ -29,11 +193,11 @@
             </header>
 
             <!-- Banner link studenti -->
-            <div id="student-link-banner" style="width: 100%; max-width: 1100px; margin-bottom: 15px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap;">
+            <div id="student-link-banner" style="width: 100%; max-width: 1100px; margin-bottom: 15px; background: #f0fdf4; border: 2px solid #bbf7d0; border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 1.3rem;">📱</span>
-                    <span style="color: #10b981; font-weight: 700; font-size: 0.95rem;">Link Studenti:</span>
-                    <span id="student-link-display" style="color: #6ee7b7; font-size: 0.9rem; word-break: break-all; cursor: pointer; text-decoration: underline dotted;"></span>
+                    <span style="color: #26A69A; font-weight: 700; font-size: 0.95rem;">Link Studenti:</span>
+                    <span id="student-link-display" style="color: #0f766e; font-size: 0.9rem; word-break: break-all; cursor: pointer; text-decoration: underline dotted;"></span>
                 </div>
             </div>
 
@@ -44,22 +208,13 @@
                 <div class="empty-state">Clicca sull'ingranaggio in alto a destra per iniziare!</div>
             </div>
             
-            <div class="teacher-controls" style="margin-bottom: 20px; display: flex; gap: 15px; justify-content: center; align-items: center; background: rgba(0,0,0,0.3); padding: 15px 25px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.3);">
-                <span style="color: #bfdbfe; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Tastiere Alunni:</span>
+            <div class="teacher-controls" style="margin-bottom: 20px; display: flex; gap: 15px; justify-content: center; align-items: center; background: #ffffff; padding: 15px 25px; border-radius: 12px; border: 2px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+                <span style="color: #475569; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Tastiere Alunni:</span>
                 <button id="toggle-consonants-btn" class="secondary-btn" style="margin: 0; border-color: #ef4444; color: #ef4444; min-width: 160px;">🔤 Consonanti OFF</button>
                 <button id="toggle-vowels-btn" class="secondary-btn" style="margin: 0; border-color: #ef4444; color: #ef4444; min-width: 160px;">🅰️ Vocali OFF</button>
             </div>
 
-            <button id="toggle-keyboard-btn" class="secondary-btn" style="margin-bottom: 20px;">⌨️ Mostra Tastiera LIM</button>
 
-            <div id="keyboard" class="keyboard hidden">
-                <!-- Keyboard buttons will be generated here -->
-            </div>
-
-            <div class="solution-section">
-                <input type="text" id="solution-input" class="text-input" placeholder="Vuoi dare la soluzione completa? Scrivila qui...">
-                <button id="solve-btn" class="primary-btn">Verifica</button>
-            </div>
         </main>
     </div>
 
@@ -92,21 +247,37 @@
 
     <!-- Schermata di Congratulazioni -->
     <div id="congratulations-screen" class="modal hidden">
-        <div class="modal-content glassmorphism" style="text-align: center; border-color: #fbbf24; box-shadow: 0 0 50px rgba(251, 191, 36, 0.4);">
-            <h1 style="font-size: 6rem; margin-bottom: 0; filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));">🏆</h1>
-            <h2 style="font-size: 3rem; color: #fbbf24; margin-top: 10px; text-shadow: 0 0 15px rgba(251, 191, 36, 0.5);">COMPLIMENTI!</h2>
-            <p id="winner-text" style="font-size: 1.5rem; margin-bottom: 30px; color: #ffffff;">Soluzione esatta!</p>
-            <button id="close-win-btn" class="primary-btn" style="background: #fbbf24; color: #000;">Chiudi e Continua</button>
+        <div class="modal-content glassmorphism" style="text-align: center; border-color: #EF7D00; box-shadow: 0 10px 40px rgba(239, 125, 0, 0.2);">
+            <h1 style="font-size: 6rem; margin-bottom: 0;">🏆</h1>
+            <h2 style="font-size: 3rem; color: #EF7D00; margin-top: 10px;">COMPLIMENTI!</h2>
+            <p id="winner-text" style="font-size: 1.5rem; margin-bottom: 30px; color: #0f172a;">Soluzione esatta!</p>
+            <button id="close-win-btn" class="primary-btn" style="background: #EF7D00; color: #fff;">Chiudi e Continua</button>
         </div>
     </div>
 
-    <!-- Banner EUREKA! prenotazione -->
+    <!-- Banner EUREKA! con coda prenotazioni -->
     <div id="eureka-banner" class="modal hidden">
-        <div class="modal-content glassmorphism" style="text-align: center; border-color: #f59e0b; box-shadow: 0 0 80px rgba(245, 158, 11, 0.6), 0 0 200px rgba(245, 158, 11, 0.2); max-width: 700px;">
-            <div style="font-size: 8rem; margin-bottom: 0; animation: eureka-pulse 1s infinite; filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.8));">💡</div>
-            <h2 style="font-size: 4rem; color: #fbbf24; margin: 10px 0; text-shadow: 0 0 20px rgba(251, 191, 36, 0.8); letter-spacing: 6px; text-transform: uppercase;">EUREKA!</h2>
-            <p id="eureka-player-name" style="font-size: 2rem; margin-bottom: 30px; color: #ffffff;"></p>
-            <button id="eureka-dismiss-btn" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-size: 1.3rem; padding: 15px 50px;">✕ Chiudi</button>
+        <div class="modal-content glassmorphism" style="text-align: center; border-color: #EF7D00; box-shadow: 0 10px 40px rgba(239, 125, 0, 0.2); max-width: 700px;">
+            <div style="font-size: 8rem; margin-bottom: 0; animation: eureka-pulse 1s infinite;">💡</div>
+            <h2 style="font-size: 4rem; color: #EF7D00; margin: 10px 0; letter-spacing: 6px; text-transform: uppercase;">EUREKA!</h2>
+            <p id="eureka-player-name" style="font-size: 2rem; margin-bottom: 15px; color: #0f172a;"></p>
+
+            <!-- Lista coda -->
+            <div id="eureka-queue-list" style="margin-bottom: 20px; display: none;">
+                <div style="color: #64748b; font-size: 0.9rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">📋 In coda:</div>
+                <div id="eureka-queue-items" style="display: flex; flex-direction: column; gap: 6px; align-items: center;"></div>
+            </div>
+
+            <!-- Inserimento soluzione diretto -->
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+                <input type="text" id="eureka-solution-input" class="text-input" placeholder="Soluzione dell'alunno..." style="max-width: 300px; text-align: center;">
+                <button id="eureka-solve-btn" class="primary-btn" style="padding: 10px 20px;">Verifica</button>
+            </div>
+
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                <button id="eureka-dismiss-btn" class="primary-btn" style="background: #EF7D00; color: #fff; font-size: 1.3rem; padding: 15px 40px;">▶ Avanti</button>
+                <button id="eureka-dismiss-all-btn" class="secondary-btn" style="border-color: #ef4444; color: #ef4444; font-size: 1rem; padding: 15px 30px;">✕ Chiudi Tutti</button>
+            </div>
         </div>
     </div>
     <style>
@@ -114,9 +285,37 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.15); }
         }
+        #eureka-queue-items .queue-item {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 6px 18px;
+            color: #c2410c;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #eureka-queue-items .queue-item .queue-pos {
+            background: #fed7aa;
+            color: #c2410c;
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
     </style>
 
-    <img id="teacher-logo" src="logo.png" alt="Logo ilnicoprof" class="teacher-logo">
+    <div class="powered-badge">
+        <div class="powered-badge-img">
+            <img src="logo.png" alt="ilnicoprof logo">
+        </div>
+        <span class="powered-badge-text">Powered by <strong>ilnicoprof</strong></span>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>

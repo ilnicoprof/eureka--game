@@ -37,7 +37,7 @@ function createRoomState(category, phrase) {
         keyboardState: { consonants: false, vowels: false },
         usedLetters: [],
         boardState: null,
-        eurekaLocked: false,
+        eurekaQueue: [],
         createdAt: Date.now(),
         lastActivity: Date.now()
     };
@@ -136,8 +136,8 @@ io.on('connection', (socket) => {
         if (room.boardState) {
             socket.emit('board_state_updated', room.boardState);
         }
-        if (room.eurekaLocked) {
-            socket.emit('eureka_announced', { playerName: '(già prenotato)' });
+        if (room.eurekaQueue.length > 0) {
+            socket.emit('eureka_queue_updated', room.eurekaQueue);
         }
         // Send current players
         socket.emit('players_updated', room.players);
@@ -221,31 +221,43 @@ io.on('connection', (socket) => {
         // Reset game state for new round
         room.usedLetters = [];
         room.boardState = null;
-        room.eurekaLocked = false;
+        room.eurekaQueue = [];
         room.keyboardState = { consonants: false, vowels: false };
         io.to(currentRoom).emit('keyboard_state_updated', room.keyboardState);
         io.to(currentRoom).emit('used_letters_updated', room.usedLetters);
-        io.to(currentRoom).emit('eureka_reset');
+        io.to(currentRoom).emit('eureka_queue_updated', []);
     });
 
-    // === EUREKA! PRENOTAZIONE ===
+    // === EUREKA! CODA PRENOTAZIONI ===
     socket.on('eureka_press', (data) => {
         if (!currentRoom || !rooms[currentRoom]) return;
         const room = rooms[currentRoom];
         touchRoom(currentRoom);
-        if (room.eurekaLocked) return; // Qualcuno si è già prenotato
-        room.eurekaLocked = true;
         const { playerName } = data;
-        console.log(`EUREKA! ${playerName} si è prenotato! (Room: ${currentRoom})`);
-        io.to(currentRoom).emit('eureka_announced', { playerName });
+        // Controlla se è già in coda
+        const alreadyInQueue = room.eurekaQueue.some(e => e.playerName.toUpperCase() === playerName.toUpperCase());
+        if (alreadyInQueue) return;
+        room.eurekaQueue.push({ playerName, timestamp: Date.now() });
+        console.log(`EUREKA! ${playerName} si è prenotato (posizione ${room.eurekaQueue.length}) (Room: ${currentRoom})`);
+        io.to(currentRoom).emit('eureka_queue_updated', room.eurekaQueue);
     });
 
+    // Rimuovi il primo dalla coda (il docente lo ha gestito)
     socket.on('eureka_dismiss', () => {
         if (!currentRoom || !rooms[currentRoom]) return;
         const room = rooms[currentRoom];
         touchRoom(currentRoom);
-        room.eurekaLocked = false;
-        io.to(currentRoom).emit('eureka_reset');
+        room.eurekaQueue.shift();
+        io.to(currentRoom).emit('eureka_queue_updated', room.eurekaQueue);
+    });
+
+    // Svuota tutta la coda
+    socket.on('eureka_dismiss_all', () => {
+        if (!currentRoom || !rooms[currentRoom]) return;
+        const room = rooms[currentRoom];
+        touchRoom(currentRoom);
+        room.eurekaQueue = [];
+        io.to(currentRoom).emit('eureka_queue_updated', []);
     });
 
     // Quando l'alunno sceglie una lettera

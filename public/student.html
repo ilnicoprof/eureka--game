@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eureka! - Studente</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { padding: 20px; padding-bottom: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
         .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; }
@@ -16,8 +16,8 @@
             .login-screen, .game-screen { max-width: 700px; }
         }
         .hidden { display: none !important; }
-        .status-msg { margin: 20px 0; font-size: 1.5rem; text-align: center; color: #fbbf24; font-weight: bold; }
-        .keyboard { background: none; border: none; padding: 0; box-shadow: none; backdrop-filter: none; width: 100%; }
+        .status-msg { margin: 20px 0; font-size: 1.5rem; text-align: center; color: #EF7D00; font-weight: bold; }
+        .keyboard { background: none; border: none; padding: 0; box-shadow: none; width: 100%; }
         .keyboard.disabled { opacity: 0.5; pointer-events: none; }
         .key { width: 45px; height: 55px; font-size: 1.2rem; }
 
@@ -37,14 +37,14 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(15px);
+            background: linear-gradient(160deg, #e0f2fe 0%, #ffffff 60%, #fff7ed 100%);
             z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px;
-            padding-bottom: 130px; /* spazio per il pulsante eureka fisso */
+            justify-content: flex-start;
+            padding: 18px 15px;
+            padding-bottom: 130px;
             overflow-y: auto;
             opacity: 1;
             transition: opacity 0.3s ease;
@@ -59,19 +59,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 14px;
             flex-shrink: 0;
         }
         .board-modal-header h2 {
-            color: #60a5fa;
-            font-size: 1.4rem;
+            color: #0070B8;
+            font-size: 1.5rem;
             margin: 0;
-            text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+            letter-spacing: 0.5px;
         }
         .board-modal-close {
-            background: rgba(239, 68, 68, 0.3);
-            border: 2px solid #ef4444;
-            color: #f87171;
+            background: #fee2e2;
+            border: 2px solid #fca5a5;
+            color: #ef4444;
             width: 44px; height: 44px;
             border-radius: 50%;
             font-size: 1.4rem;
@@ -82,102 +82,113 @@
             transition: all 0.2s;
         }
         .board-modal-close:hover {
-            background: rgba(239, 68, 68, 0.6);
+            background: #fecaca;
+            border-color: #ef4444;
+            transform: scale(1.05);
         }
 
         /* Categoria nel modal */
         .student-category {
-            background: #60a5fa;
-            color: #0f172a;
-            padding: 6px 20px;
-            border-radius: 20px;
-            font-size: 1rem;
+            background: #0070B8;
+            color: #ffffff;
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-size: 1.05rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
             border: 2px solid #ffffff;
             flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0, 112, 184, 0.25);
         }
 
         /* Tabellone studente */
         .student-board {
+            --tile-size: 42px;
+            --tile-font: 1.4rem;
+            --tile-gap: 5px;
+            --word-gap: 18px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-content: flex-start;
-            gap: 10px 20px;
-            padding: 15px;
-            background: #1e3a8a;
-            border-radius: 10px;
-            border: 4px solid #2563eb;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(0,0,0,0.5);
+            align-content: center;
+            gap: var(--word-gap);
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 16px;
+            border: 3px solid #0070B8;
+            box-shadow: 0 6px 20px rgba(0, 112, 184, 0.12);
             width: 100%;
             max-width: 95vw;
-            min-height: 120px;
-            margin-bottom: 12px;
+            min-height: 100px;
+            margin-bottom: 14px;
             flex-shrink: 0;
         }
 
         .student-word {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
-            gap: 4px;
+            gap: var(--tile-gap);
         }
 
         .student-tile {
-            width: clamp(28px, 8vw, 42px);
-            height: clamp(36px, 10vw, 52px);
+            width: var(--tile-size);
+            height: calc(var(--tile-size) * 1.25);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            font-size: var(--tile-font);
             font-weight: 800;
-            font-family: monospace;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            font-family: 'Nunito', monospace;
+            border-radius: 8px;
+            transition: all 0.25s ease;
         }
 
         .student-tile.revealed {
             background: #ffffff;
-            color: #1e3a8a;
-            border: 2px solid #000;
+            color: #0f172a;
+            border: 2px solid #0070B8;
+            box-shadow: 0 2px 8px rgba(0, 112, 184, 0.15);
         }
 
         .student-tile.hidden-letter {
-            background: #0f172a;
-            border: 2px solid #3b82f6;
+            background: #dbeafe;
+            border: 2px solid #93c5fd;
             color: transparent;
             cursor: pointer;
             position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
         }
 
         .student-tile.hidden-letter.selected {
-            border-color: #fbbf24;
-            box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
-            transform: scale(1.1);
+            border-color: #EF7D00;
+            box-shadow: 0 0 12px rgba(239, 125, 0, 0.35);
+            transform: scale(1.08);
+            background: #fff7ed;
         }
 
         .student-tile.hidden-letter.has-guess {
-            background: rgba(251, 191, 36, 0.15);
-            border-color: #fbbf24;
-            color: #fbbf24;
+            background: #fff7ed;
+            border-color: #EF7D00;
+            color: #EF7D00;
         }
 
         .student-tile.punctuation-tile {
             background: transparent;
             border: none;
-            color: #ffffff;
-            font-size: 1.5rem;
+            color: #0f172a;
+            font-size: calc(var(--tile-font) * 1.1);
+            width: calc(var(--tile-size) * 0.5);
         }
 
         /* Info testo */
         .board-info {
-            color: #94a3b8;
-            font-size: 0.8rem;
+            color: #64748b;
+            font-size: 0.85rem;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-style: italic;
             flex-shrink: 0;
         }
@@ -198,34 +209,37 @@
             gap: 4px;
         }
         .local-key {
-            width: 32px;
-            height: 40px;
-            font-size: 0.95rem;
+            width: 34px;
+            height: 44px;
+            font-size: 1rem;
             font-weight: 800;
-            background: rgba(15, 23, 42, 0.8);
-            border: 2px solid rgba(59, 130, 246, 0.4);
-            color: #f8fafc;
-            border-radius: 6px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            color: #0f172a;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
         }
         .local-key:hover, .local-key:active {
-            background: rgba(59, 130, 246, 0.4);
+            background: #e0f2fe;
+            border-color: #0070B8;
             transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 112, 184, 0.2);
         }
         .local-key.erase-key {
-            width: 60px;
-            border-color: #f87171;
-            color: #f87171;
-            font-size: 1.1rem;
+            width: 64px;
+            border-color: #fca5a5;
+            color: #ef4444;
+            font-size: 1.2rem;
         }
         .local-key.erase-key:hover {
-            background: rgba(239, 68, 68, 0.3);
+            background: #fee2e2;
+            border-color: #ef4444;
         }
 
         /* Pulsante reset ipotesi */
@@ -233,20 +247,20 @@
             margin-top: 8px;
             padding: 8px 20px;
             background: transparent;
-            border: 2px solid #94a3b8;
-            color: #94a3b8;
+            border: 2px solid #cbd5e1;
+            color: #64748b;
             border-radius: 8px;
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Nunito', sans-serif;
             flex-shrink: 0;
         }
         .reset-guesses-btn:hover {
-            border-color: #f87171;
-            color: #f87171;
-            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #fee2e2;
         }
 
         /* Pulsante tabellone - circolare fisso */
@@ -254,8 +268,8 @@
             width: 90px;
             height: 90px;
             border-radius: 50% !important;
-            background: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
-            border: 3px solid #60a5fa !important;
+            background: #0070B8 !important;
+            border: 3px solid #ffffff !important;
             color: #ffffff !important;
             overflow: hidden;
             position: fixed;
@@ -272,36 +286,17 @@
             line-height: 1.2;
             letter-spacing: 0.5px;
             padding: 8px !important;
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4), 0 4px 15px rgba(0,0,0,0.3);
-            animation: board-glow 2s ease-in-out infinite;
+            box-shadow: 0 4px 20px rgba(0, 112, 184, 0.4);
             transition: all 0.2s ease;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Nunito', sans-serif;
             cursor: pointer;
         }
         .btn-board:hover {
             transform: translateX(calc(-50% - 60px)) scale(1.08);
-            box-shadow: 0 0 35px rgba(37, 99, 235, 0.6), 0 6px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 25px rgba(0, 112, 184, 0.55);
         }
         .btn-board:active {
             transform: translateX(calc(-50% - 60px)) scale(0.93);
-        }
-        .btn-board::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%); }
-            100% { transform: translateX(100%) translateY(100%); }
-        }
-        @keyframes board-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(37, 99, 235, 0.7); }
         }
 
         /* === PULSANTE EUREKA! (cerchio fisso in basso al centro) === */
@@ -313,18 +308,15 @@
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b) !important;
-            background-size: 200% 200% !important;
-            border: 3px solid #fbbf24 !important;
-            color: #000 !important;
+            background: #EF7D00 !important;
+            border: 3px solid #ffffff !important;
+            color: #ffffff !important;
             border-radius: 50%;
             cursor: pointer;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.4), 0 4px 15px rgba(0,0,0,0.3);
-            animation: eureka-glow 2s ease-in-out infinite;
+            box-shadow: 0 4px 20px rgba(239, 125, 0, 0.4);
             transition: all 0.2s ease;
-            font-family: 'Outfit', sans-serif;
-            /* Posizionamento fisso in basso al centro */
+            font-family: 'Nunito', sans-serif;
             position: fixed;
             bottom: 20px;
             left: 50%;
@@ -338,7 +330,7 @@
         }
         .eureka-btn:hover {
             transform: translateX(calc(-50% + 60px)) scale(1.08);
-            box-shadow: 0 0 40px rgba(245, 158, 11, 0.6), 0 6px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 6px 25px rgba(239, 125, 0, 0.55);
         }
         .eureka-btn:active {
             transform: translateX(calc(-50% + 60px)) scale(0.93);
@@ -346,24 +338,196 @@
         .eureka-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            animation: none;
             transform: translateX(calc(-50% + 60px)) !important;
             box-shadow: none !important;
-        }
-        @keyframes eureka-glow {
-            0%, 100% { background-position: 0% 50%; box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
-            50% { background-position: 100% 50%; box-shadow: 0 0 40px rgba(245, 158, 11, 0.7); }
         }
 
         /* Nasconde il secondo eureka nel modal (usiamo solo quello fisso globale) */
         .eureka-btn-small {
             display: none !important;
         }
+
+        /* Decorations */
+        .bg-decorations { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+        .bg-decorations > div { position: absolute; }
+        @keyframes deco-bob { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        @keyframes deco-pencil-float { 0%,100% { transform: rotate(20deg) translateY(0px); } 50% { transform: rotate(22deg) translateY(-8px); } }
+        @keyframes deco-pen-float { 0%,100% { transform: rotate(-18deg) translateY(0px); } 50% { transform: rotate(-15deg) translateY(-8px); } }
+        @keyframes deco-book-drift { 0%,100% { transform: rotate(-7deg) translateX(0px); } 50% { transform: rotate(-5deg) translateX(-8px); } }
+        @keyframes deco-ruler-float { 0%,100% { transform: rotate(-10deg) translateY(0px); } 50% { transform: rotate(-8deg) translateY(-6px); } }
+
+        /* Powered by badge */
+        .powered-badge {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            z-index: 10001;
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            border-radius: 9999px;
+            padding: 6px 16px 6px 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.8;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+        .powered-badge:hover { opacity: 1; background: rgba(255,255,255,0.95); }
+        .powered-badge-img {
+            width: 28px; height: 28px;
+            border-radius: 50%; overflow: hidden;
+            background: #fff; border: 1px solid #f1f5f9; flex-shrink: 0;
+        }
+        .powered-badge-img img { width: 100%; height: 100%; object-fit: cover; }
+        .powered-badge-text { font-size: 0.7rem; font-weight: 500; color: #64748b; white-space: nowrap; font-family: 'Nunito', sans-serif; }
+        .powered-badge-text strong { font-weight: 800; color: #0f172a; }
     </style>
 </head>
 <body>
+
+    <div class="bg-decorations" aria-hidden="true">
+
+        <!-- Lampadina — alto sinistra -->
+        <div style="top:-5px;left:8px;animation:deco-bob 5s ease-in-out infinite;">
+            <svg viewBox="0 0 100 130" width="70" height="91" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M50 12 C30 12 16 27 16 47 C16 62 26 73 31 83 L37 103 L63 103 L69 83 C74 73 84 62 84 47 C84 27 70 12 50 12 Z"/>
+                <path d="M37 103 L63 103 L63 113 L37 113 Z"/>
+                <path d="M41 113 L59 113 L50 126 Z"/>
+            </svg>
+        </div>
+
+        <!-- Libro aperto — alto destra -->
+        <div style="top:-20px;right:-30px;animation:deco-book-drift 7s ease-in-out infinite;">
+            <svg viewBox="0 0 200 150" width="200" height="150" fill="rgba(0,112,184,0.05)" stroke="rgba(0,112,184,0.14)" stroke-width="2" stroke-linecap="round">
+                <path d="M10 140 C10 140 50 125 100 125 L100 5 C50 5 10 20 10 20 Z"/>
+                <path d="M100 125 C150 125 190 140 190 140 L190 20 C150 5 100 5 100 5 Z"/>
+                <line x1="25" y1="38" x2="85" y2="38"/><line x1="25" y1="56" x2="85" y2="56"/><line x1="25" y1="74" x2="85" y2="74"/>
+                <line x1="115" y1="38" x2="175" y2="38"/><line x1="115" y1="56" x2="175" y2="56"/>
+            </svg>
+        </div>
+
+        <!-- Matita — sinistra centro -->
+        <div style="top:35%;left:5px;animation:deco-pencil-float 6s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 32 155" width="24" height="117" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="2" width="16" height="14" rx="3"/>
+                <rect x="7" y="16" width="18" height="8" rx="1"/>
+                <rect x="8" y="24" width="16" height="88" rx="1"/>
+                <polygon points="8,112 24,112 16,147"/>
+            </svg>
+        </div>
+
+        <!-- Penna stilografica — destra centro -->
+        <div style="top:30%;right:8px;animation:deco-pen-float 5.5s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 28 160" width="22" height="125" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 30 L6 6 Q14 0 22 6 L22 30 Z"/>
+                <path d="M6 30 L5 115 L23 115 L22 30 Z"/>
+                <path d="M5 115 L6 128 L22 128 L23 115 Z" fill="rgba(0,112,184,0.10)"/>
+                <path d="M6 128 L22 128 L14 155 Z"/>
+            </svg>
+        </div>
+
+        <!-- Beuta — sinistra bassa (sopra i pulsanti) -->
+        <div style="bottom:150px;left:8px;animation:deco-bob 6.5s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 70 115" width="52" height="85" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 76 C21 71 49 71 59 76 C62 83 65 93 65 93 Q65 112 35 112 Q5 112 5 93 C5 93 8 83 11 76 Z" fill="rgba(38,166,154,0.13)" stroke="none"/>
+                <path d="M29 32 C26 44 5 68 5 93 Q5 112 35 112 Q65 112 65 93 C65 68 44 44 41 32 Z" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
+                <rect x="29" y="8" width="12" height="24" rx="2" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
+                <rect x="25" y="1" width="20" height="9" rx="3" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.25)" stroke-width="1.8"/>
+                <circle cx="26" cy="68" r="3" fill="none" stroke="rgba(38,166,154,0.25)" stroke-width="1"/>
+                <circle cx="46" cy="63" r="2" fill="none" stroke="rgba(38,166,154,0.20)" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <!-- DNA doppia elica — destra bassa (sopra i pulsanti) -->
+        <div style="bottom:148px;right:6px;animation:deco-bob 8s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 60 160" width="42" height="112" fill="none" stroke-linecap="round">
+                <line x1="12" y1="0"   x2="48" y2="0"   stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="12"  x2="40" y2="12"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="20" y1="28"  x2="40" y2="28"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="40"  x2="48" y2="40"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="52"  x2="40" y2="52"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="20" y1="68"  x2="40" y2="68"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="80"  x2="48" y2="80"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="92"  x2="40" y2="92"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="20" y1="108" x2="40" y2="108" stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="120" x2="48" y2="120" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="132" x2="40" y2="132" stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="20" y1="148" x2="40" y2="148" stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="160" x2="48" y2="160" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <path d="M12,0 C12,22 48,18 48,40 C48,62 12,58 12,80 C12,102 48,98 48,120 C48,142 12,138 12,160" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <path d="M48,0 C48,22 12,18 12,40 C12,62 48,58 48,80 C48,102 12,98 12,120 C12,142 48,138 48,160" stroke="rgba(0,112,184,0.14)" stroke-width="2.5"/>
+            </svg>
+        </div>
+
+        <!-- Atomo — centro alto -->
+        <div style="top:20%;left:50%;transform:translateX(-50%);animation:deco-bob 11s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 120 100" width="90" height="75" fill="none" stroke-linecap="round">
+                <circle cx="60" cy="50" r="6" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.25)" stroke-width="1.5"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(60 60 50)"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(120 60 50)"/>
+                <circle cx="115" cy="50" r="3.5" fill="rgba(0,112,184,0.20)" stroke="none"/>
+                <circle cx="33"  cy="25" r="3.5" fill="rgba(0,112,184,0.20)" stroke="none"/>
+                <circle cx="33"  cy="75" r="3.5" fill="rgba(0,112,184,0.20)" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Compasso — sinistra bassa (sopra pulsanti) -->
+        <div style="bottom:155px;left:12px;animation:deco-bob 7s ease-in-out infinite 3.5s;">
+            <svg viewBox="0 0 60 130" width="40" height="87" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="30" cy="10" r="4" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
+                <line x1="30" y1="10" x2="10" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
+                <line x1="30" y1="10" x2="50" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
+                <path d="M6,111 L14,111 L10,125 Z" fill="rgba(239,125,0,0.15)" stroke="rgba(239,125,0,0.22)" stroke-width="1"/>
+                <path d="M46,111 L54,111 L50,125 Z" fill="rgba(0,112,184,0.15)" stroke="rgba(0,112,184,0.22)" stroke-width="1"/>
+                <line x1="17" y1="55" x2="43" y2="55" stroke="rgba(0,112,184,0.18)" stroke-width="1.8"/>
+                <circle cx="30" cy="55" r="3.5" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.20)" stroke-width="1.5"/>
+            </svg>
+        </div>
+
+        <!-- Note musicali — centro sinistra -->
+        <div style="top:48%;left:10px;animation:deco-bob 6s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 65 55" width="50" height="42" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="43" rx="9" ry="7" transform="rotate(-20 12 43)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
+                <line x1="19" y1="40" x2="19" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
+                <ellipse cx="46" cy="46" rx="9" ry="7" transform="rotate(-20 46 46)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
+                <line x1="53" y1="43" x2="53" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
+                <line x1="19" y1="10" x2="53" y2="10" stroke="rgba(239,125,0,0.25)" stroke-width="3"/>
+            </svg>
+        </div>
+
+        <!-- Righello — sopra i pulsanti centro -->
+        <div style="bottom:145px;left:50%;transform:translateX(-50%) rotate(-8deg);animation:deco-ruler-float 9s ease-in-out infinite 0.8s;">
+            <svg viewBox="0 0 240 55" width="155" height="36" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5" stroke-linecap="round">
+                <rect x="5" y="7" width="230" height="38" rx="4"/>
+                <line x1="25" y1="7" x2="25" y2="24"/><line x1="45" y1="7" x2="45" y2="17"/><line x1="65" y1="7" x2="65" y2="24"/><line x1="85" y1="7" x2="85" y2="17"/><line x1="105" y1="7" x2="105" y2="24"/>
+                <line x1="125" y1="7" x2="125" y2="24"/><line x1="145" y1="7" x2="145" y2="17"/><line x1="165" y1="7" x2="165" y2="24"/>
+            </svg>
+        </div>
+
+        <!-- π — bassa sinistra -->
+        <div style="bottom:28%;left:12px;font-size:2.8rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.09);user-select:none;animation:deco-bob 8s ease-in-out infinite 1.5s;">π</div>
+
+        <!-- √ — centro destra -->
+        <div style="top:58%;right:12px;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(239,125,0,0.09);user-select:none;animation:deco-bob 7s ease-in-out infinite 2.5s;">√</div>
+
+        <!-- ∞ — alto centro -->
+        <div style="top:10%;left:50%;transform:translateX(-50%);font-size:2.6rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.09);user-select:none;animation:deco-bob 10s ease-in-out infinite;">∞</div>
+
+        <!-- Σ — centro destra alta -->
+        <div style="top:34%;right:10px;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.08);user-select:none;animation:deco-bob 9s ease-in-out infinite 3.5s;">Σ</div>
+
+        <!-- = — bassa centro -->
+        <div style="bottom:22%;left:50%;transform:translateX(-50%);font-size:2.5rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 7s ease-in-out infinite 5s;">=</div>
+
+    </div>
+
     <div id="login-screen" class="login-screen glassmorphism">
-        <h2>Unisciti al gioco!</h2>
+        <h2 style="margin-bottom: 20px;">Unisciti al gioco!</h2>
         <input type="text" id="player-name" class="text-input" placeholder="Il tuo nome" style="margin-bottom: 20px;">
         <button id="join-btn" class="primary-btn" style="width: 100%;">Entra</button>
     </div>
@@ -398,7 +562,7 @@
         <div id="student-category" class="student-category hidden"></div>
 
         <div id="student-board" class="student-board">
-            <div style="color: #94a3b8; text-align: center; padding: 20px;">
+            <div style="color: #64748b; text-align: center; padding: 20px;">
                 In attesa che l'insegnante avvii il gioco...
             </div>
         </div>
@@ -415,7 +579,14 @@
         <button id="eureka-btn-board" class="eureka-btn eureka-btn-small">💡 EUREKA!</button>
     </div>
 
+    <div class="powered-badge">
+        <div class="powered-badge-img">
+            <img src="/logo.png" alt="ilnicoprof logo">
+        </div>
+        <span class="powered-badge-text">Powered by <strong>ilnicoprof</strong></span>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
-    <script src="student.js"></script>
+    <script src="/student.js"></script>
 </body>
 </html>

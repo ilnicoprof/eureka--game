@@ -9,11 +9,13 @@ if (!roomCode || roomCode === 'join' || roomCode === 'student.html') {
     document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Outfit,sans-serif;color:#f87171;font-size:1.3rem;text-align:center;padding:20px;">⚠️ Link non valido.<br>Chiedi al tuo insegnante il link corretto per entrare nel gioco.</div>';
 }
 
-// Join room on connect
-socket.emit('join_room', roomCode, (response) => {
-    if (response && response.error) {
-        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Outfit,sans-serif;color:#f87171;font-size:1.3rem;text-align:center;padding:20px;">⚠️ Stanza non trovata.<br>Il gioco potrebbe essere terminato. Chiedi un nuovo link al tuo insegnante.</div>';
-    }
+// Join room AFTER socket is connected
+socket.on('connect', () => {
+    socket.emit('join_room', roomCode, (response) => {
+        if (response && response.error) {
+            document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-family:Outfit,sans-serif;color:#f87171;font-size:1.3rem;text-align:center;padding:20px;">⚠️ Stanza non trovata.<br>Il gioco potrebbe essere terminato. Chiedi un nuovo link al tuo insegnante.</div>';
+        }
+    });
 });
 
 const loginScreen = document.getElementById('login-screen');
@@ -195,6 +197,58 @@ boardModalClose.addEventListener('click', () => {
     selectedTileKey = null;
 });
 
+function calculateTileSize(boardState) {
+    // Get available width (board container width minus padding)
+    const boardPadding = 40; // 20px each side
+    const availableWidth = Math.min(window.innerWidth * 0.95, studentBoard.parentElement?.offsetWidth || window.innerWidth) - boardPadding;
+
+    // Find the longest word (most characters)
+    let longestWordLen = 0;
+    let totalChars = 0;
+    let numWords = boardState.words.length;
+
+    boardState.words.forEach(wordChars => {
+        let letterCount = wordChars.length;
+        if (letterCount > longestWordLen) longestWordLen = letterCount;
+        totalChars += letterCount;
+    });
+
+    // Calculate tile size based on longest word fitting in one row
+    // Each tile needs: tileSize + gap(5px) + border(4px)
+    const gapSize = 5;
+    const borderSize = 4;
+
+    // Max tile size we'd want
+    const maxTileSize = 52;
+    // Min tile size for readability
+    const minTileSize = 26;
+
+    // Calculate based on longest word fitting the available width
+    let tileSize = Math.floor((availableWidth - (longestWordLen - 1) * gapSize) / longestWordLen) - borderSize;
+
+    // Clamp between min and max
+    tileSize = Math.max(minTileSize, Math.min(maxTileSize, tileSize));
+
+    // Calculate font size proportionally
+    let fontSize = tileSize * 0.55;
+    fontSize = Math.max(12, Math.min(24, fontSize));
+
+    return {
+        tileSize: tileSize,
+        fontSize: fontSize,
+        gap: gapSize,
+        wordGap: Math.max(12, Math.min(20, tileSize * 0.4))
+    };
+}
+
+function applyTileSizing(boardState) {
+    const sizing = calculateTileSize(boardState);
+    studentBoard.style.setProperty('--tile-size', sizing.tileSize + 'px');
+    studentBoard.style.setProperty('--tile-font', sizing.fontSize + 'px');
+    studentBoard.style.setProperty('--tile-gap', sizing.gap + 'px');
+    studentBoard.style.setProperty('--word-gap', sizing.wordGap + 'px');
+}
+
 function renderStudentBoard() {
     studentBoard.innerHTML = '';
     selectedTileKey = null;
@@ -212,6 +266,9 @@ function renderStudentBoard() {
     } else {
         studentCategory.classList.add('hidden');
     }
+
+    // Calculate and apply dynamic tile sizing
+    applyTileSizing(currentBoardState);
 
     // Render delle parole
     currentBoardState.words.forEach((wordChars, wordIdx) => {
@@ -258,6 +315,13 @@ function renderStudentBoard() {
         studentBoard.appendChild(wordEl);
     });
 }
+
+// Recalculate tile sizes on window resize
+window.addEventListener('resize', () => {
+    if (currentBoardState && !boardModal.classList.contains('hidden')) {
+        applyTileSizing(currentBoardState);
+    }
+});
 
 function selectTile(tileKey) {
     // Deseleziona la precedente
@@ -409,36 +473,50 @@ socket.on('turn_changed', (activePlayerId) => {
     updateKeyboardUI();
 });
 
-// === EUREKA! PRENOTAZIONE ===
+// === EUREKA! CODA PRENOTAZIONI ===
 const eurekaBtnMain = document.getElementById('eureka-btn-main');
 const eurekaBtnBoard = document.getElementById('eureka-btn-board');
 
 function handleEurekaPress() {
     if (!myName) return;
     socket.emit('eureka_press', { playerName: myName });
-    // Disabilita subito per feedback immediato
-    setEurekaDisabled(true, '⏳ Inviato...');
 }
 
-function setEurekaDisabled(disabled, text) {
-    const label = text || '💡 EUREKA!';
-    if (eurekaBtnMain) {
-        eurekaBtnMain.disabled = disabled;
-        eurekaBtnMain.textContent = label;
-    }
-    if (eurekaBtnBoard) {
-        eurekaBtnBoard.disabled = disabled;
-        eurekaBtnBoard.textContent = label;
-    }
+function setEurekaLabel(text) {
+    if (eurekaBtnMain) eurekaBtnMain.innerHTML = text;
+    if (eurekaBtnBoard) eurekaBtnBoard.innerHTML = text;
+}
+
+function setEurekaDisabledState(disabled) {
+    if (eurekaBtnMain) eurekaBtnMain.disabled = disabled;
+    if (eurekaBtnBoard) eurekaBtnBoard.disabled = disabled;
 }
 
 eurekaBtnMain.addEventListener('click', handleEurekaPress);
 eurekaBtnBoard.addEventListener('click', handleEurekaPress);
 
-socket.on('eureka_announced', (data) => {
-    setEurekaDisabled(true, `⏳ ${data.playerName} si è prenotato`);
-});
+socket.on('eureka_queue_updated', (queue) => {
+    if (queue.length === 0) {
+        // Coda vuota - riabilita il pulsante
+        setEurekaDisabledState(false);
+        setEurekaLabel('💡<br>EUREKA!');
+        return;
+    }
 
-socket.on('eureka_reset', () => {
-    setEurekaDisabled(false, '💡 EUREKA!');
+    // Controlla se sono in coda
+    const myPosition = queue.findIndex(e => e.playerName.toUpperCase() === myName.toUpperCase());
+
+    if (myPosition !== -1) {
+        // Sono in coda
+        setEurekaDisabledState(true);
+        if (myPosition === 0) {
+            setEurekaLabel('🏆<br>Tocca a te!');
+        } else {
+            setEurekaLabel(`⏳<br>Posiz. ${myPosition + 1}`);
+        }
+    } else {
+        // Non sono in coda, posso ancora prenotarmi
+        setEurekaDisabledState(false);
+        setEurekaLabel('💡<br>EUREKA!');
+    }
 });
