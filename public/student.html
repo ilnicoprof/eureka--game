@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { padding: 20px; padding-bottom: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
-        .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; }
+        .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
         @media (min-width: 600px) {
             .login-screen, .game-screen { max-width: 550px; }
         }
@@ -350,11 +350,16 @@
         /* Decorations */
         .bg-decorations { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
         .bg-decorations > div { position: absolute; }
-        @keyframes deco-bob { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-        @keyframes deco-pencil-float { 0%,100% { transform: rotate(20deg) translateY(0px); } 50% { transform: rotate(22deg) translateY(-8px); } }
-        @keyframes deco-pen-float { 0%,100% { transform: rotate(-18deg) translateY(0px); } 50% { transform: rotate(-15deg) translateY(-8px); } }
-        @keyframes deco-book-drift { 0%,100% { transform: rotate(-7deg) translateX(0px); } 50% { transform: rotate(-5deg) translateX(-8px); } }
-        @keyframes deco-ruler-float { 0%,100% { transform: rotate(-10deg) translateY(0px); } 50% { transform: rotate(-8deg) translateY(-6px); } }
+        @keyframes deco-bob { 0%,100%{transform:translate(0,0)}35%{transform:translate(8px,-12px)}70%{transform:translate(-5px,-18px)} }
+        @keyframes deco-drift-r { 0%,100%{transform:translate(0,0)}30%{transform:translate(16px,-12px)}65%{transform:translate(6px,-20px)} }
+        @keyframes deco-drift-l { 0%,100%{transform:translate(0,0)}35%{transform:translate(-14px,-10px)}70%{transform:translate(5px,-18px)} }
+        @keyframes deco-wander { 0%,100%{transform:translate(0,0) rotate(0deg)}20%{transform:translate(12px,-8px) rotate(3deg)}45%{transform:translate(-8px,-18px) rotate(-3deg)}70%{transform:translate(16px,-12px) rotate(4deg)} }
+        @keyframes deco-spin-float { 0%,100%{transform:rotate(0deg) translateY(0)}40%{transform:rotate(9deg) translateY(-12px)}80%{transform:rotate(-5deg) translateY(-6px)} }
+        @keyframes deco-pulse { 0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.08) translateY(-12px)} }
+        @keyframes deco-pencil-float { 0%,100%{transform:rotate(20deg) translate(0,0)}30%{transform:rotate(23deg) translate(10px,-12px)}65%{transform:rotate(17deg) translate(-6px,-18px)} }
+        @keyframes deco-pen-float { 0%,100%{transform:rotate(-18deg) translate(0,0)}35%{transform:rotate(-13deg) translate(-10px,-14px)}70%{transform:rotate(-22deg) translate(7px,-8px)} }
+        @keyframes deco-book-drift { 0%,100%{transform:rotate(-7deg) translate(0,0)}30%{transform:rotate(-4deg) translate(-12px,-8px)}65%{transform:rotate(-10deg) translate(5px,-16px)} }
+        @keyframes deco-ruler-float { 0%,100%{transform:rotate(-10deg) translate(0,0)}40%{transform:rotate(-7deg) translate(12px,-8px)}80%{transform:rotate(-13deg) translate(-3px,-5px)} }
 
         /* Powered by badge */
         .powered-badge {
@@ -392,17 +397,17 @@
     <div class="bg-decorations" aria-hidden="true">
 
         <!-- Lampadina — alto sinistra -->
-        <div style="top:-5px;left:8px;animation:deco-bob 5s ease-in-out infinite;">
-            <svg viewBox="0 0 100 130" width="70" height="91" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <div style="top:3%;left:4%;animation:deco-wander 12s ease-in-out infinite;">
+            <svg viewBox="0 0 100 130" width="65" height="85" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M50 12 C30 12 16 27 16 47 C16 62 26 73 31 83 L37 103 L63 103 L69 83 C74 73 84 62 84 47 C84 27 70 12 50 12 Z"/>
                 <path d="M37 103 L63 103 L63 113 L37 113 Z"/>
                 <path d="M41 113 L59 113 L50 126 Z"/>
             </svg>
         </div>
 
-        <!-- Libro aperto — alto destra -->
-        <div style="top:-20px;right:-30px;animation:deco-book-drift 7s ease-in-out infinite;">
-            <svg viewBox="0 0 200 150" width="200" height="150" fill="rgba(0,112,184,0.05)" stroke="rgba(0,112,184,0.14)" stroke-width="2" stroke-linecap="round">
+        <!-- Libro — alto destra -->
+        <div style="top:3%;right:3%;animation:deco-book-drift 9s ease-in-out infinite;">
+            <svg viewBox="0 0 200 150" width="170" height="128" fill="rgba(0,112,184,0.05)" stroke="rgba(0,112,184,0.14)" stroke-width="2" stroke-linecap="round">
                 <path d="M10 140 C10 140 50 125 100 125 L100 5 C50 5 10 20 10 20 Z"/>
                 <path d="M100 125 C150 125 190 140 190 140 L190 20 C150 5 100 5 100 5 Z"/>
                 <line x1="25" y1="38" x2="85" y2="38"/><line x1="25" y1="56" x2="85" y2="56"/><line x1="25" y1="74" x2="85" y2="74"/>
@@ -410,9 +415,22 @@
             </svg>
         </div>
 
-        <!-- Matita — sinistra centro -->
-        <div style="top:35%;left:5px;animation:deco-pencil-float 6s ease-in-out infinite 1s;">
-            <svg viewBox="0 0 32 155" width="24" height="117" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Atomo — centro schermo -->
+        <div style="top:18%;left:50%;transform:translateX(-50%);animation:deco-pulse 11s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 120 100" width="85" height="71" fill="none" stroke-linecap="round">
+                <circle cx="60" cy="50" r="6" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.25)" stroke-width="1.5"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(60 60 50)"/>
+                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(120 60 50)"/>
+                <circle cx="115" cy="50" r="3" fill="rgba(0,112,184,0.20)" stroke="none"/>
+                <circle cx="33"  cy="25" r="3" fill="rgba(0,112,184,0.20)" stroke="none"/>
+                <circle cx="33"  cy="75" r="3" fill="rgba(0,112,184,0.20)" stroke="none"/>
+            </svg>
+        </div>
+
+        <!-- Matita — sinistra 35% -->
+        <div style="top:35%;left:4%;animation:deco-pencil-float 8s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 32 155" width="22" height="107" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="8" y="2" width="16" height="14" rx="3"/>
                 <rect x="7" y="16" width="18" height="8" rx="1"/>
                 <rect x="8" y="24" width="16" height="88" rx="1"/>
@@ -420,9 +438,9 @@
             </svg>
         </div>
 
-        <!-- Penna stilografica — destra centro -->
-        <div style="top:30%;right:8px;animation:deco-pen-float 5.5s ease-in-out infinite 2s;">
-            <svg viewBox="0 0 28 160" width="22" height="125" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Penna — destra 30% -->
+        <div style="top:30%;right:4%;animation:deco-pen-float 7s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 28 160" width="20" height="114" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 30 L6 6 Q14 0 22 6 L22 30 Z"/>
                 <path d="M6 30 L5 115 L23 115 L22 30 Z"/>
                 <path d="M5 115 L6 128 L22 128 L23 115 Z" fill="rgba(0,112,184,0.10)"/>
@@ -430,67 +448,8 @@
             </svg>
         </div>
 
-        <!-- Beuta — sinistra bassa (sopra i pulsanti) -->
-        <div style="bottom:150px;left:8px;animation:deco-bob 6.5s ease-in-out infinite 0.5s;">
-            <svg viewBox="0 0 70 115" width="52" height="85" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 76 C21 71 49 71 59 76 C62 83 65 93 65 93 Q65 112 35 112 Q5 112 5 93 C5 93 8 83 11 76 Z" fill="rgba(38,166,154,0.13)" stroke="none"/>
-                <path d="M29 32 C26 44 5 68 5 93 Q5 112 35 112 Q65 112 65 93 C65 68 44 44 41 32 Z" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
-                <rect x="29" y="8" width="12" height="24" rx="2" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
-                <rect x="25" y="1" width="20" height="9" rx="3" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.25)" stroke-width="1.8"/>
-                <circle cx="26" cy="68" r="3" fill="none" stroke="rgba(38,166,154,0.25)" stroke-width="1"/>
-                <circle cx="46" cy="63" r="2" fill="none" stroke="rgba(38,166,154,0.20)" stroke-width="1"/>
-            </svg>
-        </div>
-
-        <!-- DNA doppia elica — destra bassa (sopra i pulsanti) -->
-        <div style="bottom:148px;right:6px;animation:deco-bob 8s ease-in-out infinite 1s;">
-            <svg viewBox="0 0 60 160" width="42" height="112" fill="none" stroke-linecap="round">
-                <line x1="12" y1="0"   x2="48" y2="0"   stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="12"  x2="40" y2="12"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="20" y1="28"  x2="40" y2="28"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="40"  x2="48" y2="40"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="52"  x2="40" y2="52"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="20" y1="68"  x2="40" y2="68"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="80"  x2="48" y2="80"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="92"  x2="40" y2="92"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="20" y1="108" x2="40" y2="108" stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="120" x2="48" y2="120" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="132" x2="40" y2="132" stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="20" y1="148" x2="40" y2="148" stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="160" x2="48" y2="160" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <path d="M12,0 C12,22 48,18 48,40 C48,62 12,58 12,80 C12,102 48,98 48,120 C48,142 12,138 12,160" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
-                <path d="M48,0 C48,22 12,18 12,40 C12,62 48,58 48,80 C48,102 12,98 12,120 C12,142 48,138 48,160" stroke="rgba(0,112,184,0.14)" stroke-width="2.5"/>
-            </svg>
-        </div>
-
-        <!-- Atomo — centro alto -->
-        <div style="top:20%;left:50%;transform:translateX(-50%);animation:deco-bob 11s ease-in-out infinite 2s;">
-            <svg viewBox="0 0 120 100" width="90" height="75" fill="none" stroke-linecap="round">
-                <circle cx="60" cy="50" r="6" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.25)" stroke-width="1.5"/>
-                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2"/>
-                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(60 60 50)"/>
-                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(120 60 50)"/>
-                <circle cx="115" cy="50" r="3.5" fill="rgba(0,112,184,0.20)" stroke="none"/>
-                <circle cx="33"  cy="25" r="3.5" fill="rgba(0,112,184,0.20)" stroke="none"/>
-                <circle cx="33"  cy="75" r="3.5" fill="rgba(0,112,184,0.20)" stroke="none"/>
-            </svg>
-        </div>
-
-        <!-- Compasso — sinistra bassa (sopra pulsanti) -->
-        <div style="bottom:155px;left:12px;animation:deco-bob 7s ease-in-out infinite 3.5s;">
-            <svg viewBox="0 0 60 130" width="40" height="87" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="30" cy="10" r="4" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
-                <line x1="30" y1="10" x2="10" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
-                <line x1="30" y1="10" x2="50" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
-                <path d="M6,111 L14,111 L10,125 Z" fill="rgba(239,125,0,0.15)" stroke="rgba(239,125,0,0.22)" stroke-width="1"/>
-                <path d="M46,111 L54,111 L50,125 Z" fill="rgba(0,112,184,0.15)" stroke="rgba(0,112,184,0.22)" stroke-width="1"/>
-                <line x1="17" y1="55" x2="43" y2="55" stroke="rgba(0,112,184,0.18)" stroke-width="1.8"/>
-                <circle cx="30" cy="55" r="3.5" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.20)" stroke-width="1.5"/>
-            </svg>
-        </div>
-
-        <!-- Note musicali — centro sinistra -->
-        <div style="top:48%;left:10px;animation:deco-bob 6s ease-in-out infinite 0.5s;">
+        <!-- Note — centro schermo 50% -->
+        <div style="top:46%;left:50%;transform:translateX(-50%);animation:deco-drift-r 8s ease-in-out infinite 3s;">
             <svg viewBox="0 0 65 55" width="50" height="42" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <ellipse cx="12" cy="43" rx="9" ry="7" transform="rotate(-20 12 43)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
                 <line x1="19" y1="40" x2="19" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
@@ -500,29 +459,132 @@
             </svg>
         </div>
 
-        <!-- Righello — sopra i pulsanti centro -->
-        <div style="bottom:145px;left:50%;transform:translateX(-50%) rotate(-8deg);animation:deco-ruler-float 9s ease-in-out infinite 0.8s;">
-            <svg viewBox="0 0 240 55" width="155" height="36" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5" stroke-linecap="round">
-                <rect x="5" y="7" width="230" height="38" rx="4"/>
-                <line x1="25" y1="7" x2="25" y2="24"/><line x1="45" y1="7" x2="45" y2="17"/><line x1="65" y1="7" x2="65" y2="24"/><line x1="85" y1="7" x2="85" y2="17"/><line x1="105" y1="7" x2="105" y2="24"/>
-                <line x1="125" y1="7" x2="125" y2="24"/><line x1="145" y1="7" x2="145" y2="17"/><line x1="165" y1="7" x2="165" y2="24"/>
+        <!-- Beuta — sinistra 60% -->
+        <div style="top:60%;left:5%;animation:deco-drift-l 9s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 70 115" width="48" height="79" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 76 C21 71 49 71 59 76 C62 83 65 93 65 93 Q65 112 35 112 Q5 112 5 93 C5 93 8 83 11 76 Z" fill="rgba(38,166,154,0.13)" stroke="none"/>
+                <path d="M29 32 C26 44 5 68 5 93 Q5 112 35 112 Q65 112 65 93 C65 68 44 44 41 32 Z" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
+                <rect x="29" y="8" width="12" height="24" rx="2" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
+                <rect x="25" y="1" width="20" height="9" rx="3" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.25)" stroke-width="1.8"/>
+                <circle cx="26" cy="68" r="2.5" fill="none" stroke="rgba(38,166,154,0.25)" stroke-width="1"/>
             </svg>
         </div>
 
-        <!-- π — bassa sinistra -->
-        <div style="bottom:28%;left:12px;font-size:2.8rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.09);user-select:none;animation:deco-bob 8s ease-in-out infinite 1.5s;">π</div>
+        <!-- DNA — destra 58% -->
+        <div style="top:58%;right:4%;animation:deco-drift-r 10s ease-in-out infinite 0.5s;">
+            <svg viewBox="0 0 60 160" width="38" height="101" fill="none" stroke-linecap="round">
+                <line x1="12" y1="0"   x2="48" y2="0"   stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="12"  x2="40" y2="12"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="20" y1="28"  x2="40" y2="28"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="40"  x2="48" y2="40"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="52"  x2="40" y2="52"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="20" y1="68"  x2="40" y2="68"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="80"  x2="48" y2="80"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="20" y1="92"  x2="40" y2="92"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
+                <line x1="12" y1="120" x2="48" y2="120" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <line x1="12" y1="160" x2="48" y2="160" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
+                <path d="M12,0 C12,22 48,18 48,40 C48,62 12,58 12,80 C12,102 48,98 48,120 C48,142 12,138 12,160" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
+                <path d="M48,0 C48,22 12,18 12,40 C12,62 48,58 48,80 C48,102 12,98 12,120 C12,142 48,138 48,160" stroke="rgba(0,112,184,0.14)" stroke-width="2.5"/>
+            </svg>
+        </div>
 
-        <!-- √ — centro destra -->
-        <div style="top:58%;right:12px;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(239,125,0,0.09);user-select:none;animation:deco-bob 7s ease-in-out infinite 2.5s;">√</div>
+        <!-- Compasso — centro-destra 40% -->
+        <div style="top:40%;right:5%;animation:deco-spin-float 10s ease-in-out infinite 4s;">
+            <svg viewBox="0 0 60 130" width="36" height="78" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="30" cy="10" r="4" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
+                <line x1="30" y1="10" x2="10" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
+                <line x1="30" y1="10" x2="50" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
+                <path d="M6,111 L14,111 L10,125 Z" fill="rgba(239,125,0,0.15)" stroke="rgba(239,125,0,0.22)" stroke-width="1"/>
+                <path d="M46,111 L54,111 L50,125 Z" fill="rgba(0,112,184,0.15)" stroke="rgba(0,112,184,0.22)" stroke-width="1"/>
+                <line x1="17" y1="55" x2="43" y2="55" stroke="rgba(0,112,184,0.18)" stroke-width="1.8"/>
+            </svg>
+        </div>
 
-        <!-- ∞ — alto centro -->
+        <!-- Righello — basso centro, sopra bottoni -->
+        <div style="bottom:145px;left:50%;transform:translateX(-50%) rotate(-8deg);animation:deco-ruler-float 9s ease-in-out infinite 1s;">
+            <svg viewBox="0 0 240 55" width="140" height="32" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5" stroke-linecap="round">
+                <rect x="5" y="7" width="230" height="38" rx="4"/>
+                <line x1="25" y1="7" x2="25" y2="24"/><line x1="45" y1="7" x2="45" y2="17"/><line x1="65" y1="7" x2="65" y2="24"/><line x1="85" y1="7" x2="85" y2="17"/><line x1="105" y1="7" x2="105" y2="24"/>
+                <line x1="125" y1="7" x2="125" y2="24"/><line x1="145" y1="7" x2="145" y2="17"/>
+            </svg>
+        </div>
+
+        <!-- Simboli sparsi -->
         <div style="top:10%;left:50%;transform:translateX(-50%);font-size:2.6rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.09);user-select:none;animation:deco-bob 10s ease-in-out infinite;">∞</div>
+        <div style="top:28%;left:6%;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.09);user-select:none;animation:deco-drift-r 9s ease-in-out infinite 1s;">π</div>
+        <div style="top:55%;left:50%;transform:translateX(-30px);font-size:2.3rem;font-family:'Georgia',serif;color:rgba(239,125,0,0.09);user-select:none;animation:deco-drift-l 8s ease-in-out infinite 2s;">√</div>
+        <div style="top:24%;right:7%;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.08);user-select:none;animation:deco-wander 13s ease-in-out infinite 3s;">Σ</div>
+        <div style="bottom:28%;left:50%;transform:translateX(20px);font-size:2.3rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 7s ease-in-out infinite 4s;">=</div>
 
-        <!-- Σ — centro destra alta -->
-        <div style="top:34%;right:10px;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.08);user-select:none;animation:deco-bob 9s ease-in-out infinite 3.5s;">Σ</div>
+        <!-- Globo terrestre -->
+        <div style="top:65%;left:50%;transform:translateX(-50%);animation:deco-pulse 14s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 100 100" width="72" height="72" fill="none" stroke-linecap="round">
+                <circle cx="50" cy="50" r="44" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5"/>
+                <ellipse cx="50" cy="50" rx="44" ry="14" stroke="rgba(38,166,154,0.13)" stroke-width="1.2"/>
+                <ellipse cx="50" cy="33" rx="37" ry="9"  stroke="rgba(38,166,154,0.10)" stroke-width="1"/>
+                <ellipse cx="50" cy="67" rx="37" ry="9"  stroke="rgba(38,166,154,0.10)" stroke-width="1"/>
+                <ellipse cx="50" cy="50" rx="14" ry="44" stroke="rgba(38,166,154,0.13)" stroke-width="1.2"/>
+                <ellipse cx="50" cy="50" rx="14" ry="44" stroke="rgba(38,166,154,0.10)" stroke-width="1" transform="rotate(60 50 50)"/>
+            </svg>
+        </div>
 
-        <!-- = — bassa centro -->
-        <div style="bottom:22%;left:50%;transform:translateX(-50%);font-size:2.5rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 7s ease-in-out infinite 5s;">=</div>
+        <!-- Molecola H₂O -->
+        <div style="bottom:185px;right:50%;transform:translateX(50%);animation:deco-drift-r 10s ease-in-out infinite 1.5s;">
+            <svg viewBox="0 0 90 70" width="68" height="53" fill="none" stroke-linecap="round">
+                <circle cx="45" cy="42" r="14" fill="rgba(0,112,184,0.08)" stroke="rgba(0,112,184,0.20)" stroke-width="1.5"/>
+                <circle cx="13" cy="18" r="9"  fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.15)" stroke-width="1.2"/>
+                <circle cx="77" cy="18" r="9"  fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.15)" stroke-width="1.2"/>
+                <line x1="21" y1="25" x2="33" y2="32" stroke="rgba(0,112,184,0.18)" stroke-width="2"/>
+                <line x1="57" y1="32" x2="69" y2="25" stroke="rgba(0,112,184,0.18)" stroke-width="2"/>
+            </svg>
+        </div>
+
+        <!-- Triangolo geometrico -->
+        <div style="top:38%;right:48%;transform:translateX(50%);animation:deco-drift-l 11s ease-in-out infinite 5s;">
+            <svg viewBox="0 0 90 80" width="68" height="60" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="45,5 5,75 85,75" fill="rgba(239,125,0,0.06)" stroke="rgba(239,125,0,0.18)" stroke-width="1.8"/>
+                <line x1="45" y1="5" x2="45" y2="75" stroke="rgba(239,125,0,0.12)" stroke-width="1.2" stroke-dasharray="5,3"/>
+                <path d="M45 68 L52 68 L52 75" stroke="rgba(239,125,0,0.18)" stroke-width="1.2"/>
+            </svg>
+        </div>
+
+        <!-- Assi cartesiani -->
+        <div style="top:76%;left:8%;animation:deco-bob 10s ease-in-out infinite 3s;">
+            <svg viewBox="0 0 95 85" width="70" height="62" fill="none" stroke-linecap="round">
+                <line x1="8" y1="62" x2="87" y2="62" stroke="rgba(0,112,184,0.17)" stroke-width="1.8"/>
+                <polygon points="85,58 85,66 94,62" fill="rgba(0,112,184,0.17)"/>
+                <line x1="22" y1="78" x2="22" y2="6" stroke="rgba(0,112,184,0.17)" stroke-width="1.8"/>
+                <polygon points="18,7 26,7 22,0" fill="rgba(0,112,184,0.17)"/>
+                <path d="M24 58 C32 25 50 8 84 12" stroke="rgba(239,125,0,0.20)" stroke-width="2"/>
+                <line x1="42" y1="59" x2="42" y2="65" stroke="rgba(0,112,184,0.12)" stroke-width="1.2"/>
+                <line x1="62" y1="59" x2="62" y2="65" stroke="rgba(0,112,184,0.12)" stroke-width="1.2"/>
+            </svg>
+        </div>
+
+        <!-- Foglio quaderno -->
+        <div style="bottom:182px;left:8%;animation:deco-drift-r 9s ease-in-out infinite 2s;">
+            <svg viewBox="0 0 70 85" width="50" height="61" fill="none" stroke-linecap="round">
+                <rect x="5" y="5" width="60" height="75" rx="2" fill="rgba(0,112,184,0.04)" stroke="rgba(0,112,184,0.17)" stroke-width="1.5"/>
+                <line x1="20" y1="5"  x2="20" y2="80" stroke="rgba(239,125,0,0.15)" stroke-width="1.2"/>
+                <line x1="5" y1="22"  x2="65" y2="22" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
+                <line x1="5" y1="34"  x2="65" y2="34" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
+                <line x1="5" y1="46"  x2="65" y2="46" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
+                <line x1="5" y1="58"  x2="65" y2="58" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
+                <path d="M55 5 L65 15 L55 15 Z" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.13)" stroke-width="1"/>
+            </svg>
+        </div>
+
+        <!-- Clessidra -->
+        <div style="bottom:190px;right:8%;animation:deco-spin-float 12s ease-in-out infinite 4s;">
+            <svg viewBox="0 0 60 100" width="42" height="70" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="8" y="3"  width="44" height="8" rx="2" fill="rgba(38,166,154,0.15)" stroke="rgba(38,166,154,0.22)" stroke-width="1.5"/>
+                <rect x="8" y="89" width="44" height="8" rx="2" fill="rgba(38,166,154,0.15)" stroke="rgba(38,166,154,0.22)" stroke-width="1.5"/>
+                <path d="M8 11 L52 11 L32 50 Z" fill="rgba(38,166,154,0.07)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5"/>
+                <path d="M8 89 L52 89 L32 50 Z" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5"/>
+                <line x1="16" y1="76" x2="48" y2="76" stroke="rgba(38,166,154,0.16)" stroke-width="1.2"/>
+                <line x1="30" y1="50" x2="30" y2="57" stroke="rgba(38,166,154,0.22)" stroke-width="1.8"/>
+            </svg>
+        </div>
 
     </div>
 
