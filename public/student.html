@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { padding: 20px; padding-bottom: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
+        body { padding: 20px; padding-bottom: 158px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
         .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
         @media (min-width: 600px) {
             .login-screen, .game-screen { max-width: 550px; }
@@ -44,7 +44,7 @@
             align-items: center;
             justify-content: flex-start;
             padding: 18px 15px;
-            padding-bottom: 130px;
+            padding-bottom: 162px;
             overflow-y: auto;
             opacity: 1;
             transition: opacity 0.3s ease;
@@ -193,55 +193,6 @@
             flex-shrink: 0;
         }
 
-        /* Tastiera locale nel modal */
-        .local-keyboard {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            width: 100%;
-            max-width: 95vw;
-            flex-shrink: 0;
-        }
-        .local-keyboard .keyboard-row {
-            display: flex;
-            justify-content: center;
-            gap: 4px;
-        }
-        .local-key {
-            width: 34px;
-            height: 44px;
-            font-size: 1rem;
-            font-weight: 800;
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            color: #0f172a;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Nunito', sans-serif;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-        }
-        .local-key:hover, .local-key:active {
-            background: #e0f2fe;
-            border-color: #0070B8;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 112, 184, 0.2);
-        }
-        .local-key.erase-key {
-            width: 64px;
-            border-color: #fca5a5;
-            color: #ef4444;
-            font-size: 1.2rem;
-        }
-        .local-key.erase-key:hover {
-            background: #fee2e2;
-            border-color: #ef4444;
-        }
-
         /* Pulsante reset ipotesi */
         .reset-guesses-btn {
             margin-top: 8px;
@@ -264,6 +215,7 @@
         }
 
         /* Pulsante tabellone - circolare fisso */
+        /* Ragiona qui — secondario, più piccolo, a sinistra del centro */
         .btn-board {
             width: 90px;
             height: 90px;
@@ -273,72 +225,72 @@
             color: #ffffff !important;
             overflow: hidden;
             position: fixed;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
-            transform: translateX(calc(-50% - 60px));
+            transform: translateX(calc(-50% - 80px));
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.7rem !important;
+            font-size: 0.72rem !important;
             font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: 0.5px;
-            padding: 8px !important;
-            box-shadow: 0 4px 20px rgba(0, 112, 184, 0.4);
+            line-height: 1.25;
+            letter-spacing: 0.3px;
+            padding: 6px !important;
+            box-shadow: 0 4px 16px rgba(0, 112, 184, 0.38);
             transition: all 0.2s ease;
             font-family: 'Nunito', sans-serif;
             cursor: pointer;
         }
         .btn-board:hover {
-            transform: translateX(calc(-50% - 60px)) scale(1.08);
-            box-shadow: 0 6px 25px rgba(0, 112, 184, 0.55);
+            transform: translateX(calc(-50% - 80px)) scale(1.08);
+            box-shadow: 0 6px 22px rgba(0, 112, 184, 0.52);
         }
         .btn-board:active {
-            transform: translateX(calc(-50% - 60px)) scale(0.93);
+            transform: translateX(calc(-50% - 80px)) scale(0.92);
         }
 
-        /* === PULSANTE EUREKA! (cerchio fisso in basso al centro) === */
+        /* EUREKA! — primario, più grande, centrato leggermente a destra */
         .eureka-btn {
-            width: 90px;
-            height: 90px;
+            width: 128px;
+            height: 128px;
             padding: 0;
-            font-size: 0.75rem;
+            font-size: 1rem;
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
             background: #EF7D00 !important;
-            border: 3px solid #ffffff !important;
+            border: 4px solid #ffffff !important;
             color: #ffffff !important;
             border-radius: 50%;
             cursor: pointer;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(239, 125, 0, 0.4);
+            box-shadow: 0 6px 28px rgba(239, 125, 0, 0.52);
             transition: all 0.2s ease;
             font-family: 'Nunito', sans-serif;
             position: fixed;
-            bottom: 20px;
+            bottom: 14px;
             left: 50%;
-            transform: translateX(calc(-50% + 60px));
+            transform: translateX(calc(-50% + 57px));
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.2;
+            line-height: 1.3;
             text-align: center;
         }
         .eureka-btn:hover {
-            transform: translateX(calc(-50% + 60px)) scale(1.08);
-            box-shadow: 0 6px 25px rgba(239, 125, 0, 0.55);
+            transform: translateX(calc(-50% + 57px)) scale(1.06);
+            box-shadow: 0 8px 34px rgba(239, 125, 0, 0.65);
         }
         .eureka-btn:active {
-            transform: translateX(calc(-50% + 60px)) scale(0.93);
+            transform: translateX(calc(-50% + 57px)) scale(0.93);
         }
         .eureka-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: translateX(calc(-50% + 60px)) !important;
+            transform: translateX(calc(-50% + 57px)) !important;
             box-shadow: none !important;
         }
 
@@ -365,7 +317,7 @@
         .powered-badge {
             position: fixed;
             bottom: 16px;
-            left: 16px;
+            right: 16px;
             z-index: 10001;
             display: inline-flex;
             width: fit-content;
@@ -629,11 +581,7 @@
             </div>
         </div>
 
-        <div class="board-info">Tocca una casella nascosta e poi una lettera per inserire la tua ipotesi</div>
-
-        <div id="local-keyboard" class="local-keyboard">
-            <!-- Generata via JS -->
-        </div>
+        <div class="board-info">Scrivi dalla tastiera del tuo dispositivo — le lettere si inseriscono in sequenza automaticamente</div>
 
         <button id="reset-guesses-btn" class="reset-guesses-btn">🗑️ Cancella le mie ipotesi</button>
 
@@ -647,6 +595,20 @@
         </div>
         <span class="powered-badge-text">Powered by <strong>ilnicoprof</strong></span>
     </div>
+
+    <!-- Input nativo nascosto per la tastiera del dispositivo.
+         font-size:16px evita lo zoom automatico su iOS Safari. -->
+    <input
+        id="native-keyboard-input"
+        type="text"
+        inputmode="text"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        aria-hidden="true"
+        style="position:fixed;bottom:0;left:0;width:1px;height:1px;opacity:0;border:none;outline:none;padding:0;margin:0;font-size:16px;"
+    >
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/student.js"></script>
