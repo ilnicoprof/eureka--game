@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Eureka! - Studente</title>
     <link rel="stylesheet" href="/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { padding: 20px; padding-bottom: 158px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
-        .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; }
+        body { padding: 20px; padding-bottom: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; }
+        .login-screen, .game-screen { width: 100%; max-width: 90vw; display: flex; flex-direction: column; align-items: center; }
         @media (min-width: 600px) {
             .login-screen, .game-screen { max-width: 550px; }
         }
@@ -16,8 +16,8 @@
             .login-screen, .game-screen { max-width: 700px; }
         }
         .hidden { display: none !important; }
-        .status-msg { margin: 20px 0; font-size: 1.5rem; text-align: center; color: #EF7D00; font-weight: bold; }
-        .keyboard { background: none; border: none; padding: 0; box-shadow: none; width: 100%; }
+        .status-msg { margin: 20px 0; font-size: 1.5rem; text-align: center; color: #fbbf24; font-weight: bold; }
+        .keyboard { background: none; border: none; padding: 0; box-shadow: none; backdrop-filter: none; width: 100%; }
         .keyboard.disabled { opacity: 0.5; pointer-events: none; }
         .key { width: 45px; height: 55px; font-size: 1.2rem; }
 
@@ -37,14 +37,15 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(160deg, #e0f2fe 0%, #ffffff 60%, #fff7ed 100%);
+            background: linear-gradient(160deg, rgba(10, 15, 40, 0.97), rgba(5, 10, 30, 0.99));
+            backdrop-filter: blur(20px);
             z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             padding: 18px 15px;
-            padding-bottom: 162px;
+            padding-bottom: 130px;
             overflow-y: auto;
             opacity: 1;
             transition: opacity 0.3s ease;
@@ -63,15 +64,16 @@
             flex-shrink: 0;
         }
         .board-modal-header h2 {
-            color: #0070B8;
+            color: #93c5fd;
             font-size: 1.5rem;
             margin: 0;
+            text-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
             letter-spacing: 0.5px;
         }
         .board-modal-close {
-            background: #fee2e2;
-            border: 2px solid #fca5a5;
-            color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.6);
+            color: #f87171;
             width: 44px; height: 44px;
             border-radius: 50%;
             font-size: 1.4rem;
@@ -82,14 +84,14 @@
             transition: all 0.2s;
         }
         .board-modal-close:hover {
-            background: #fecaca;
+            background: rgba(239, 68, 68, 0.4);
             border-color: #ef4444;
             transform: scale(1.05);
         }
 
         /* Categoria nel modal */
         .student-category {
-            background: #0070B8;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: #ffffff;
             padding: 8px 24px;
             border-radius: 25px;
@@ -98,9 +100,10 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-bottom: 14px;
-            border: 2px solid #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
             flex-shrink: 0;
-            box-shadow: 0 4px 15px rgba(0, 112, 184, 0.25);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         /* Tabellone studente */
@@ -115,10 +118,10 @@
             align-content: center;
             gap: var(--word-gap);
             padding: 20px;
-            background: #f0f7ff;
+            background: linear-gradient(145deg, #1e3a8a, #172554);
             border-radius: 16px;
-            border: 3px solid #0070B8;
-            box-shadow: 0 6px 20px rgba(0, 112, 184, 0.12);
+            border: 3px solid rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05), inset 0 0 20px rgba(0,0,0,0.4);
             width: 100%;
             max-width: 95vw;
             min-height: 100px;
@@ -141,51 +144,53 @@
             align-items: center;
             font-size: var(--tile-font);
             font-weight: 800;
-            font-family: 'Nunito', monospace;
+            font-family: 'Outfit', monospace;
             border-radius: 8px;
             transition: all 0.25s ease;
         }
 
         .student-tile.revealed {
-            background: #ffffff;
-            color: #0f172a;
-            border: 2px solid #0070B8;
-            box-shadow: 0 2px 8px rgba(0, 112, 184, 0.15);
+            background: linear-gradient(180deg, #ffffff, #e8edf5);
+            color: #1e3a8a;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.8);
+            text-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
 
         .student-tile.hidden-letter {
-            background: #dbeafe;
-            border: 2px solid #93c5fd;
+            background: linear-gradient(180deg, #0f1d3d, #0a1528);
+            border: 2px solid rgba(59, 130, 246, 0.5);
             color: transparent;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03);
         }
 
         .student-tile.hidden-letter.selected {
-            border-color: #EF7D00;
-            box-shadow: 0 0 12px rgba(239, 125, 0, 0.35);
+            border-color: #fbbf24;
+            box-shadow: 0 0 16px rgba(251, 191, 36, 0.5), 0 0 4px rgba(251, 191, 36, 0.3);
             transform: scale(1.08);
-            background: #fff7ed;
+            background: linear-gradient(180deg, #1a2744, #0f1d3d);
         }
 
         .student-tile.hidden-letter.has-guess {
-            background: #fff7ed;
-            border-color: #EF7D00;
-            color: #EF7D00;
+            background: linear-gradient(180deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.08));
+            border-color: #fbbf24;
+            color: #fbbf24;
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
         }
 
         .student-tile.punctuation-tile {
             background: transparent;
             border: none;
-            color: #0f172a;
+            color: rgba(255, 255, 255, 0.8);
             font-size: calc(var(--tile-font) * 1.1);
             width: calc(var(--tile-size) * 0.5);
         }
 
         /* Info testo */
         .board-info {
-            color: #64748b;
+            color: #94a3b8;
             font-size: 0.85rem;
             text-align: center;
             margin-bottom: 12px;
@@ -193,353 +198,175 @@
             flex-shrink: 0;
         }
 
+        /* Tastiera locale nel modal */
+        .local-keyboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            max-width: 95vw;
+            flex-shrink: 0;
+        }
+        .local-keyboard .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+        .local-key {
+            width: 34px;
+            height: 44px;
+            font-size: 1rem;
+            font-weight: 800;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(59, 130, 246, 0.35);
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .local-key:hover, .local-key:active {
+            background: rgba(59, 130, 246, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.6);
+        }
+        .local-key.erase-key {
+            width: 64px;
+            border-color: rgba(248, 113, 113, 0.5);
+            color: #f87171;
+            font-size: 1.2rem;
+        }
+        .local-key.erase-key:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #f87171;
+        }
+
         /* Pulsante reset ipotesi */
         .reset-guesses-btn {
             margin-top: 8px;
             padding: 8px 20px;
             background: transparent;
-            border: 2px solid #cbd5e1;
-            color: #64748b;
+            border: 2px solid #94a3b8;
+            color: #94a3b8;
             border-radius: 8px;
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             flex-shrink: 0;
         }
         .reset-guesses-btn:hover {
-            border-color: #ef4444;
-            color: #ef4444;
-            background: #fee2e2;
+            border-color: #f87171;
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.1);
         }
 
         /* Pulsante tabellone - circolare fisso */
-        /* Ragiona qui — secondario, più piccolo, a sinistra del centro */
         .btn-board {
             width: 90px;
             height: 90px;
             border-radius: 50% !important;
-            background: #0070B8 !important;
-            border: 3px solid #ffffff !important;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
+            border: 3px solid #60a5fa !important;
             color: #ffffff !important;
             overflow: hidden;
             position: fixed;
-            bottom: 24px;
+            bottom: 20px;
             left: 50%;
-            transform: translateX(calc(-50% - 80px));
+            transform: translateX(calc(-50% - 60px));
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 0.72rem !important;
+            font-size: 0.7rem !important;
             font-weight: 800;
-            line-height: 1.25;
-            letter-spacing: 0.3px;
-            padding: 6px !important;
-            box-shadow: 0 4px 16px rgba(0, 112, 184, 0.38);
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+            padding: 8px !important;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4), 0 4px 15px rgba(0,0,0,0.3);
+            animation: board-glow 2s ease-in-out infinite;
             transition: all 0.2s ease;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             cursor: pointer;
         }
         .btn-board:hover {
-            transform: translateX(calc(-50% - 80px)) scale(1.08);
-            box-shadow: 0 6px 22px rgba(0, 112, 184, 0.52);
+            transform: translateX(calc(-50% - 60px)) scale(1.08);
+            box-shadow: 0 0 35px rgba(37, 99, 235, 0.6), 0 6px 20px rgba(0,0,0,0.4);
         }
         .btn-board:active {
-            transform: translateX(calc(-50% - 80px)) scale(0.92);
+            transform: translateX(calc(-50% - 60px)) scale(0.93);
+        }
+        @keyframes board-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(37, 99, 235, 0.7); }
         }
 
-        /* EUREKA! — primario, più grande, centrato leggermente a destra */
+        /* === PULSANTE EUREKA! (cerchio fisso in basso al centro) === */
         .eureka-btn {
-            width: 128px;
-            height: 128px;
+            width: 90px;
+            height: 90px;
             padding: 0;
-            font-size: 1rem;
+            font-size: 0.75rem;
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
-            background: #EF7D00 !important;
-            border: 4px solid #ffffff !important;
-            color: #ffffff !important;
+            background: linear-gradient(135deg, #f59e0b, #d97706, #f59e0b) !important;
+            background-size: 200% 200% !important;
+            border: 3px solid #fbbf24 !important;
+            color: #000 !important;
             border-radius: 50%;
             cursor: pointer;
             overflow: hidden;
-            box-shadow: 0 6px 28px rgba(239, 125, 0, 0.52);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.4), 0 4px 15px rgba(0,0,0,0.3);
+            animation: eureka-glow 2s ease-in-out infinite;
             transition: all 0.2s ease;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
+            /* Posizionamento fisso in basso al centro */
             position: fixed;
-            bottom: 14px;
+            bottom: 20px;
             left: 50%;
-            transform: translateX(calc(-50% + 57px));
+            transform: translateX(calc(-50% + 60px));
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.3;
+            line-height: 1.2;
             text-align: center;
         }
         .eureka-btn:hover {
-            transform: translateX(calc(-50% + 57px)) scale(1.06);
-            box-shadow: 0 8px 34px rgba(239, 125, 0, 0.65);
+            transform: translateX(calc(-50% + 60px)) scale(1.08);
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.6), 0 6px 20px rgba(0,0,0,0.4);
         }
         .eureka-btn:active {
-            transform: translateX(calc(-50% + 57px)) scale(0.93);
+            transform: translateX(calc(-50% + 60px)) scale(0.93);
         }
         .eureka-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: translateX(calc(-50% + 57px)) !important;
+            animation: none;
+            transform: translateX(calc(-50% + 60px)) !important;
             box-shadow: none !important;
+        }
+        @keyframes eureka-glow {
+            0%, 100% { background-position: 0% 50%; box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); }
+            50% { background-position: 100% 50%; box-shadow: 0 0 40px rgba(245, 158, 11, 0.7); }
         }
 
         /* Nasconde il secondo eureka nel modal (usiamo solo quello fisso globale) */
         .eureka-btn-small {
             display: none !important;
         }
-
-        /* Decorations */
-        .bg-decorations { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
-        .bg-decorations > div { position: absolute; }
-        @keyframes deco-bob { 0%,100%{transform:translate(0,0)}35%{transform:translate(8px,-12px)}70%{transform:translate(-5px,-18px)} }
-        @keyframes deco-drift-r { 0%,100%{transform:translate(0,0)}30%{transform:translate(16px,-12px)}65%{transform:translate(6px,-20px)} }
-        @keyframes deco-drift-l { 0%,100%{transform:translate(0,0)}35%{transform:translate(-14px,-10px)}70%{transform:translate(5px,-18px)} }
-        @keyframes deco-wander { 0%,100%{transform:translate(0,0) rotate(0deg)}20%{transform:translate(12px,-8px) rotate(3deg)}45%{transform:translate(-8px,-18px) rotate(-3deg)}70%{transform:translate(16px,-12px) rotate(4deg)} }
-        @keyframes deco-spin-float { 0%,100%{transform:rotate(0deg) translateY(0)}40%{transform:rotate(9deg) translateY(-12px)}80%{transform:rotate(-5deg) translateY(-6px)} }
-        @keyframes deco-pulse { 0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.08) translateY(-12px)} }
-        @keyframes deco-pencil-float { 0%,100%{transform:rotate(20deg) translate(0,0)}30%{transform:rotate(23deg) translate(10px,-12px)}65%{transform:rotate(17deg) translate(-6px,-18px)} }
-        @keyframes deco-pen-float { 0%,100%{transform:rotate(-18deg) translate(0,0)}35%{transform:rotate(-13deg) translate(-10px,-14px)}70%{transform:rotate(-22deg) translate(7px,-8px)} }
-        @keyframes deco-book-drift { 0%,100%{transform:rotate(-7deg) translate(0,0)}30%{transform:rotate(-4deg) translate(-12px,-8px)}65%{transform:rotate(-10deg) translate(5px,-16px)} }
-        @keyframes deco-ruler-float { 0%,100%{transform:rotate(-10deg) translate(0,0)}40%{transform:rotate(-7deg) translate(12px,-8px)}80%{transform:rotate(-13deg) translate(-3px,-5px)} }
-
-        /* Powered by badge */
-        .powered-badge {
-            position: fixed;
-            bottom: 16px;
-            right: 16px;
-            z-index: 10001;
-            display: inline-flex;
-            width: fit-content;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(226, 232, 240, 0.6);
-            border-radius: 9999px;
-            padding: 6px 16px 6px 6px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            opacity: 0.8;
-            transition: all 0.2s ease;
-            cursor: default;
-        }
-        .powered-badge:hover { opacity: 1; background: rgba(255,255,255,0.95); }
-        .powered-badge-img {
-            width: 28px; height: 28px;
-            border-radius: 50%; overflow: hidden;
-            background: #fff; border: 1px solid #f1f5f9; flex-shrink: 0;
-        }
-        .powered-badge-img img { width: 100%; height: 100%; object-fit: cover; }
-        .powered-badge-text { font-size: 0.7rem; font-weight: 500; color: #64748b; white-space: nowrap; font-family: 'Nunito', sans-serif; }
-        .powered-badge-text strong { font-weight: 800; color: #0f172a; }
     </style>
 </head>
 <body>
-
-    <div class="bg-decorations" aria-hidden="true">
-
-        <!-- Lampadina — alto sinistra -->
-        <div style="top:3%;left:4%;animation:deco-wander 12s ease-in-out infinite;">
-            <svg viewBox="0 0 100 130" width="65" height="85" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M50 12 C30 12 16 27 16 47 C16 62 26 73 31 83 L37 103 L63 103 L69 83 C74 73 84 62 84 47 C84 27 70 12 50 12 Z"/>
-                <path d="M37 103 L63 103 L63 113 L37 113 Z"/>
-                <path d="M41 113 L59 113 L50 126 Z"/>
-            </svg>
-        </div>
-
-        <!-- Libro — alto destra -->
-        <div style="top:3%;right:3%;animation:deco-book-drift 9s ease-in-out infinite;">
-            <svg viewBox="0 0 200 150" width="170" height="128" fill="rgba(0,112,184,0.05)" stroke="rgba(0,112,184,0.14)" stroke-width="2" stroke-linecap="round">
-                <path d="M10 140 C10 140 50 125 100 125 L100 5 C50 5 10 20 10 20 Z"/>
-                <path d="M100 125 C150 125 190 140 190 140 L190 20 C150 5 100 5 100 5 Z"/>
-                <line x1="25" y1="38" x2="85" y2="38"/><line x1="25" y1="56" x2="85" y2="56"/><line x1="25" y1="74" x2="85" y2="74"/>
-                <line x1="115" y1="38" x2="175" y2="38"/><line x1="115" y1="56" x2="175" y2="56"/>
-            </svg>
-        </div>
-
-        <!-- Atomo — centro schermo -->
-        <div style="top:18%;left:50%;transform:translateX(-50%);animation:deco-pulse 11s ease-in-out infinite 2s;">
-            <svg viewBox="0 0 120 100" width="85" height="71" fill="none" stroke-linecap="round">
-                <circle cx="60" cy="50" r="6" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.25)" stroke-width="1.5"/>
-                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2"/>
-                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(60 60 50)"/>
-                <ellipse cx="60" cy="50" rx="55" ry="17" stroke="rgba(0,112,184,0.13)" stroke-width="1.2" transform="rotate(120 60 50)"/>
-                <circle cx="115" cy="50" r="3" fill="rgba(0,112,184,0.20)" stroke="none"/>
-                <circle cx="33"  cy="25" r="3" fill="rgba(0,112,184,0.20)" stroke="none"/>
-                <circle cx="33"  cy="75" r="3" fill="rgba(0,112,184,0.20)" stroke="none"/>
-            </svg>
-        </div>
-
-        <!-- Matita — sinistra 35% -->
-        <div style="top:35%;left:4%;animation:deco-pencil-float 8s ease-in-out infinite 1s;">
-            <svg viewBox="0 0 32 155" width="22" height="107" fill="rgba(239,125,0,0.07)" stroke="rgba(239,125,0,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="8" y="2" width="16" height="14" rx="3"/>
-                <rect x="7" y="16" width="18" height="8" rx="1"/>
-                <rect x="8" y="24" width="16" height="88" rx="1"/>
-                <polygon points="8,112 24,112 16,147"/>
-            </svg>
-        </div>
-
-        <!-- Penna — destra 30% -->
-        <div style="top:30%;right:4%;animation:deco-pen-float 7s ease-in-out infinite 2s;">
-            <svg viewBox="0 0 28 160" width="20" height="114" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.18)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 30 L6 6 Q14 0 22 6 L22 30 Z"/>
-                <path d="M6 30 L5 115 L23 115 L22 30 Z"/>
-                <path d="M5 115 L6 128 L22 128 L23 115 Z" fill="rgba(0,112,184,0.10)"/>
-                <path d="M6 128 L22 128 L14 155 Z"/>
-            </svg>
-        </div>
-
-        <!-- Note — centro schermo 50% -->
-        <div style="top:46%;left:50%;transform:translateX(-50%);animation:deco-drift-r 8s ease-in-out infinite 3s;">
-            <svg viewBox="0 0 65 55" width="50" height="42" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <ellipse cx="12" cy="43" rx="9" ry="7" transform="rotate(-20 12 43)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
-                <line x1="19" y1="40" x2="19" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
-                <ellipse cx="46" cy="46" rx="9" ry="7" transform="rotate(-20 46 46)" fill="rgba(239,125,0,0.12)" stroke="rgba(239,125,0,0.22)" stroke-width="1.5"/>
-                <line x1="53" y1="43" x2="53" y2="10" stroke="rgba(239,125,0,0.22)" stroke-width="2.5"/>
-                <line x1="19" y1="10" x2="53" y2="10" stroke="rgba(239,125,0,0.25)" stroke-width="3"/>
-            </svg>
-        </div>
-
-        <!-- Beuta — sinistra 60% -->
-        <div style="top:60%;left:5%;animation:deco-drift-l 9s ease-in-out infinite 1s;">
-            <svg viewBox="0 0 70 115" width="48" height="79" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 76 C21 71 49 71 59 76 C62 83 65 93 65 93 Q65 112 35 112 Q5 112 5 93 C5 93 8 83 11 76 Z" fill="rgba(38,166,154,0.13)" stroke="none"/>
-                <path d="M29 32 C26 44 5 68 5 93 Q5 112 35 112 Q65 112 65 93 C65 68 44 44 41 32 Z" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
-                <rect x="29" y="8" width="12" height="24" rx="2" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.20)" stroke-width="1.8"/>
-                <rect x="25" y="1" width="20" height="9" rx="3" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.25)" stroke-width="1.8"/>
-                <circle cx="26" cy="68" r="2.5" fill="none" stroke="rgba(38,166,154,0.25)" stroke-width="1"/>
-            </svg>
-        </div>
-
-        <!-- DNA — destra 58% -->
-        <div style="top:58%;right:4%;animation:deco-drift-r 10s ease-in-out infinite 0.5s;">
-            <svg viewBox="0 0 60 160" width="38" height="101" fill="none" stroke-linecap="round">
-                <line x1="12" y1="0"   x2="48" y2="0"   stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="12"  x2="40" y2="12"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="20" y1="28"  x2="40" y2="28"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="40"  x2="48" y2="40"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="52"  x2="40" y2="52"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="20" y1="68"  x2="40" y2="68"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="80"  x2="48" y2="80"  stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="20" y1="92"  x2="40" y2="92"  stroke="rgba(0,112,184,0.10)" stroke-width="1.1"/>
-                <line x1="12" y1="120" x2="48" y2="120" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <line x1="12" y1="160" x2="48" y2="160" stroke="rgba(0,112,184,0.13)" stroke-width="1.5"/>
-                <path d="M12,0 C12,22 48,18 48,40 C48,62 12,58 12,80 C12,102 48,98 48,120 C48,142 12,138 12,160" stroke="rgba(0,112,184,0.22)" stroke-width="2.5"/>
-                <path d="M48,0 C48,22 12,18 12,40 C12,62 48,58 48,80 C48,102 12,98 12,120 C12,142 48,138 48,160" stroke="rgba(0,112,184,0.14)" stroke-width="2.5"/>
-            </svg>
-        </div>
-
-        <!-- Compasso — centro-destra 40% -->
-        <div style="top:40%;right:5%;animation:deco-spin-float 10s ease-in-out infinite 4s;">
-            <svg viewBox="0 0 60 130" width="36" height="78" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="30" cy="10" r="4" fill="rgba(0,112,184,0.12)" stroke="rgba(0,112,184,0.22)" stroke-width="1.5"/>
-                <line x1="30" y1="10" x2="10" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
-                <line x1="30" y1="10" x2="50" y2="115" stroke="rgba(0,112,184,0.22)" stroke-width="2.2"/>
-                <path d="M6,111 L14,111 L10,125 Z" fill="rgba(239,125,0,0.15)" stroke="rgba(239,125,0,0.22)" stroke-width="1"/>
-                <path d="M46,111 L54,111 L50,125 Z" fill="rgba(0,112,184,0.15)" stroke="rgba(0,112,184,0.22)" stroke-width="1"/>
-                <line x1="17" y1="55" x2="43" y2="55" stroke="rgba(0,112,184,0.18)" stroke-width="1.8"/>
-            </svg>
-        </div>
-
-        <!-- Righello — basso centro, sopra bottoni -->
-        <div style="bottom:145px;left:50%;transform:translateX(-50%) rotate(-8deg);animation:deco-ruler-float 9s ease-in-out infinite 1s;">
-            <svg viewBox="0 0 240 55" width="140" height="32" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5" stroke-linecap="round">
-                <rect x="5" y="7" width="230" height="38" rx="4"/>
-                <line x1="25" y1="7" x2="25" y2="24"/><line x1="45" y1="7" x2="45" y2="17"/><line x1="65" y1="7" x2="65" y2="24"/><line x1="85" y1="7" x2="85" y2="17"/><line x1="105" y1="7" x2="105" y2="24"/>
-                <line x1="125" y1="7" x2="125" y2="24"/><line x1="145" y1="7" x2="145" y2="17"/>
-            </svg>
-        </div>
-
-        <!-- Simboli sparsi -->
-        <div style="top:10%;left:50%;transform:translateX(-50%);font-size:2.6rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.09);user-select:none;animation:deco-bob 10s ease-in-out infinite;">∞</div>
-        <div style="top:28%;left:6%;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(0,112,184,0.09);user-select:none;animation:deco-drift-r 9s ease-in-out infinite 1s;">π</div>
-        <div style="top:55%;left:50%;transform:translateX(-30px);font-size:2.3rem;font-family:'Georgia',serif;color:rgba(239,125,0,0.09);user-select:none;animation:deco-drift-l 8s ease-in-out infinite 2s;">√</div>
-        <div style="top:24%;right:7%;font-size:2.5rem;font-family:'Georgia',serif;color:rgba(38,166,154,0.08);user-select:none;animation:deco-wander 13s ease-in-out infinite 3s;">Σ</div>
-        <div style="bottom:28%;left:50%;transform:translateX(20px);font-size:2.3rem;font-weight:800;color:rgba(0,112,184,0.08);user-select:none;animation:deco-bob 7s ease-in-out infinite 4s;">=</div>
-
-        <!-- Globo terrestre -->
-        <div style="top:65%;left:50%;transform:translateX(-50%);animation:deco-pulse 14s ease-in-out infinite 2s;">
-            <svg viewBox="0 0 100 100" width="72" height="72" fill="none" stroke-linecap="round">
-                <circle cx="50" cy="50" r="44" fill="rgba(38,166,154,0.06)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5"/>
-                <ellipse cx="50" cy="50" rx="44" ry="14" stroke="rgba(38,166,154,0.13)" stroke-width="1.2"/>
-                <ellipse cx="50" cy="33" rx="37" ry="9"  stroke="rgba(38,166,154,0.10)" stroke-width="1"/>
-                <ellipse cx="50" cy="67" rx="37" ry="9"  stroke="rgba(38,166,154,0.10)" stroke-width="1"/>
-                <ellipse cx="50" cy="50" rx="14" ry="44" stroke="rgba(38,166,154,0.13)" stroke-width="1.2"/>
-                <ellipse cx="50" cy="50" rx="14" ry="44" stroke="rgba(38,166,154,0.10)" stroke-width="1" transform="rotate(60 50 50)"/>
-            </svg>
-        </div>
-
-        <!-- Molecola H₂O -->
-        <div style="bottom:185px;right:50%;transform:translateX(50%);animation:deco-drift-r 10s ease-in-out infinite 1.5s;">
-            <svg viewBox="0 0 90 70" width="68" height="53" fill="none" stroke-linecap="round">
-                <circle cx="45" cy="42" r="14" fill="rgba(0,112,184,0.08)" stroke="rgba(0,112,184,0.20)" stroke-width="1.5"/>
-                <circle cx="13" cy="18" r="9"  fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.15)" stroke-width="1.2"/>
-                <circle cx="77" cy="18" r="9"  fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.15)" stroke-width="1.2"/>
-                <line x1="21" y1="25" x2="33" y2="32" stroke="rgba(0,112,184,0.18)" stroke-width="2"/>
-                <line x1="57" y1="32" x2="69" y2="25" stroke="rgba(0,112,184,0.18)" stroke-width="2"/>
-            </svg>
-        </div>
-
-        <!-- Triangolo geometrico -->
-        <div style="top:38%;right:48%;transform:translateX(50%);animation:deco-drift-l 11s ease-in-out infinite 5s;">
-            <svg viewBox="0 0 90 80" width="68" height="60" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="45,5 5,75 85,75" fill="rgba(239,125,0,0.06)" stroke="rgba(239,125,0,0.18)" stroke-width="1.8"/>
-                <line x1="45" y1="5" x2="45" y2="75" stroke="rgba(239,125,0,0.12)" stroke-width="1.2" stroke-dasharray="5,3"/>
-                <path d="M45 68 L52 68 L52 75" stroke="rgba(239,125,0,0.18)" stroke-width="1.2"/>
-            </svg>
-        </div>
-
-        <!-- Assi cartesiani -->
-        <div style="top:76%;left:8%;animation:deco-bob 10s ease-in-out infinite 3s;">
-            <svg viewBox="0 0 95 85" width="70" height="62" fill="none" stroke-linecap="round">
-                <line x1="8" y1="62" x2="87" y2="62" stroke="rgba(0,112,184,0.17)" stroke-width="1.8"/>
-                <polygon points="85,58 85,66 94,62" fill="rgba(0,112,184,0.17)"/>
-                <line x1="22" y1="78" x2="22" y2="6" stroke="rgba(0,112,184,0.17)" stroke-width="1.8"/>
-                <polygon points="18,7 26,7 22,0" fill="rgba(0,112,184,0.17)"/>
-                <path d="M24 58 C32 25 50 8 84 12" stroke="rgba(239,125,0,0.20)" stroke-width="2"/>
-                <line x1="42" y1="59" x2="42" y2="65" stroke="rgba(0,112,184,0.12)" stroke-width="1.2"/>
-                <line x1="62" y1="59" x2="62" y2="65" stroke="rgba(0,112,184,0.12)" stroke-width="1.2"/>
-            </svg>
-        </div>
-
-        <!-- Foglio quaderno -->
-        <div style="bottom:182px;left:8%;animation:deco-drift-r 9s ease-in-out infinite 2s;">
-            <svg viewBox="0 0 70 85" width="50" height="61" fill="none" stroke-linecap="round">
-                <rect x="5" y="5" width="60" height="75" rx="2" fill="rgba(0,112,184,0.04)" stroke="rgba(0,112,184,0.17)" stroke-width="1.5"/>
-                <line x1="20" y1="5"  x2="20" y2="80" stroke="rgba(239,125,0,0.15)" stroke-width="1.2"/>
-                <line x1="5" y1="22"  x2="65" y2="22" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
-                <line x1="5" y1="34"  x2="65" y2="34" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
-                <line x1="5" y1="46"  x2="65" y2="46" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
-                <line x1="5" y1="58"  x2="65" y2="58" stroke="rgba(0,112,184,0.10)" stroke-width="0.9"/>
-                <path d="M55 5 L65 15 L55 15 Z" fill="rgba(0,112,184,0.07)" stroke="rgba(0,112,184,0.13)" stroke-width="1"/>
-            </svg>
-        </div>
-
-        <!-- Clessidra -->
-        <div style="bottom:190px;right:8%;animation:deco-spin-float 12s ease-in-out infinite 4s;">
-            <svg viewBox="0 0 60 100" width="42" height="70" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="8" y="3"  width="44" height="8" rx="2" fill="rgba(38,166,154,0.15)" stroke="rgba(38,166,154,0.22)" stroke-width="1.5"/>
-                <rect x="8" y="89" width="44" height="8" rx="2" fill="rgba(38,166,154,0.15)" stroke="rgba(38,166,154,0.22)" stroke-width="1.5"/>
-                <path d="M8 11 L52 11 L32 50 Z" fill="rgba(38,166,154,0.07)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5"/>
-                <path d="M8 89 L52 89 L32 50 Z" fill="rgba(38,166,154,0.12)" stroke="rgba(38,166,154,0.18)" stroke-width="1.5"/>
-                <line x1="16" y1="76" x2="48" y2="76" stroke="rgba(38,166,154,0.16)" stroke-width="1.2"/>
-                <line x1="30" y1="50" x2="30" y2="57" stroke="rgba(38,166,154,0.22)" stroke-width="1.8"/>
-            </svg>
-        </div>
-
-    </div>
-
     <div id="login-screen" class="login-screen glassmorphism">
         <h2 style="margin-bottom: 20px;">Unisciti al gioco!</h2>
         <input type="text" id="player-name" class="text-input" placeholder="Il tuo nome" style="margin-bottom: 20px;">
@@ -576,39 +403,22 @@
         <div id="student-category" class="student-category hidden"></div>
 
         <div id="student-board" class="student-board">
-            <div style="color: #64748b; text-align: center; padding: 20px;">
+            <div style="color: #94a3b8; text-align: center; padding: 20px;">
                 In attesa che l'insegnante avvii il gioco...
             </div>
         </div>
 
-        <div class="board-info">Scrivi dalla tastiera del tuo dispositivo — le lettere si inseriscono in sequenza automaticamente</div>
+        <div class="board-info">Tocca una casella nascosta e poi una lettera per inserire la tua ipotesi</div>
+
+        <div id="local-keyboard" class="local-keyboard">
+            <!-- Generata via JS -->
+        </div>
 
         <button id="reset-guesses-btn" class="reset-guesses-btn">🗑️ Cancella le mie ipotesi</button>
 
         <!-- Pulsante EUREKA! nel modal tabellone -->
         <button id="eureka-btn-board" class="eureka-btn eureka-btn-small">💡 EUREKA!</button>
     </div>
-
-    <div class="powered-badge">
-        <div class="powered-badge-img">
-            <img src="/logo.png" alt="ilnicoprof logo">
-        </div>
-        <span class="powered-badge-text">Powered by <strong>ilnicoprof</strong></span>
-    </div>
-
-    <!-- Input nativo nascosto per la tastiera del dispositivo.
-         font-size:16px evita lo zoom automatico su iOS Safari. -->
-    <input
-        id="native-keyboard-input"
-        type="text"
-        inputmode="text"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="characters"
-        spellcheck="false"
-        aria-hidden="true"
-        style="position:fixed;bottom:0;left:0;width:1px;height:1px;opacity:0;border:none;outline:none;padding:0;margin:0;font-size:16px;"
-    >
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/student.js"></script>
