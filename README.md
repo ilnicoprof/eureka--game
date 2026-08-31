@@ -1,6 +1,6 @@
-# 💡 Eureka! v5.1
+# 💡 Eureka! v6.0
 
-Eureka! è un gioco didattico multiplayer in tempo reale, ottimizzato appositamente per l'uso in classe tramite la **LIM (Lavagna Interattiva Multimediale)** e i dispositivi degli studenti (smartphone/tablet).
+Eureka! è un gioco didattico multiplayer in tempo reale, ispirato al famoso gioco televisivo "La Ruota della Fortuna", ma ottimizzato appositamente per l'uso in classe tramite la **LIM (Lavagna Interattiva Multimediale)** e i dispositivi degli studenti (smartphone/tablet).
 
 ## ✨ Funzionalità Principali
 
@@ -33,7 +33,7 @@ Eureka! è un gioco didattico multiplayer in tempo reale, ottimizzato appositame
 
 ## 🌐 Deploy (Messa online)
 
-Questo progetto è configurato per un rilascio rapido e automatico su **Render.com**. è possibile accedere alla versione già caricata online e pronta collegandosi al sito: https://eureka-game.onrender.com/
+Questo progetto è configurato per un rilascio rapido e automatico su **Render.com**. Qualsiasi aggiornamento ai file di questo repository attiverà la procedura di *Continuous Deployment* (tramite il file `render.yaml`), mettendo immediatamente online l'ultima versione.
 
 ---
-*Progetto ideato e sviluppato per la didattica innovativa in classe.* 
+*Progetto ideato e sviluppato per la didattica innovativa in classe.*
